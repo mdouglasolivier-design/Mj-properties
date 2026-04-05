@@ -1,0 +1,3440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MJ Properties | Premium Vacation Rentals & Real Estate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #B8860B;
+            --black: #1A1A1A;
+            --green: #1DB954;
+            --dark-green: #1A8C4A;
+            --white: #FFFFFF;
+            --light-gray: #F7F7F7;
+            --gray: #DDDDDD;
+            --dark-gray: #717171;
+            --red: #FF5A5F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--black);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            color: var(--gold);
+            font-size: 26px;
+            margin-right: 8px;
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .logo-gold {
+            color: var(--gold);
+        }
+        
+        .logo-black {
+            color: var(--black);
+        }
+        
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: 40px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 320px;
+            width: 100%;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 5px;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .search-btn {
+            background-color: var(--gold);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--dark-gold);
+        }
+        
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-list li {
+            margin-left: 16px;
+        }
+        
+        .nav-list a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 13px;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-list a:hover {
+            color: var(--black);
+        }
+        
+        .nav-list a.active {
+            color: var(--black);
+            font-weight: 600;
+        }
+        
+        .nav-list a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: var(--gold);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
+            padding: 5px 10px;
+            border: 1px solid var(--gray);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: box-shadow 0.3s;
+            font-size: 13px;
+        }
+        
+        .user-menu:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+        
+        .user-icon {
+            color: var(--dark-gray);
+            margin-right: 6px;
+            font-size: 16px;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--black);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 60px 0 40px;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--black);
+        }
+        
+        .hero-title span {
+            color: var(--gold);
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--dark-gray);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        
+        /* Categories */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px 0;
+            gap: 20px;
+            scrollbar-width: none;
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-card {
+            min-width: 120px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 28px;
+            color: var(--gold);
+            transition: background-color 0.3s;
+        }
+        
+        .category-card:hover .category-icon {
+            background-color: var(--gold);
+            color: var(--white);
+        }
+        
+        .category-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        /* Property Grid */
+        .section-title {
+            font-size: 32px;
+            margin: 40px 0 30px;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+        
+        .property-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .property-img {
+            height: 240px;
+            width: 100%;
+            background-color: var(--gray);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .property-price {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--white);
+            color: var(--black);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .property-info {
+            padding: 20px;
+        }
+        
+        .property-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .property-location {
+            color: var(--dark-gray);
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .property-location i {
+            margin-right: 6px;
+            color: var(--gold);
+        }
+        
+        .property-rating {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .rating-stars {
+            color: var(--gold);
+        }
+        
+        .rating-number {
+            font-weight: 500;
+        }
+        
+        /* Page Content */
+        .page-content {
+            display: none;
+            padding: 100px 0 60px;
+            min-height: 80vh;
+        }
+        
+        .page-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* About Page */
+        .about-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1473&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 100px 0;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 60px;
+        }
+        
+        .about-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .about-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .about-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .about-card h3 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        /* Team Page */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            text-align: center;
+            background-color: var(--white);
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-member.ceo {
+            border: 2px solid var(--gold);
+            position: relative;
+        }
+        
+        .ceo-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--gold);
+            color: var(--white);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--gold);
+            overflow: hidden;
+        }
+        
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-name {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .member-position {
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        /* Contact Page */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        
+        .map-container {
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .contact-form-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .contact-form-container h2 {
+            color: var(--gold);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--black);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Book Now Page */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        
+        .booking-form-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 120px;
+        }
+        
+        .booking-details {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .booking-card {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* Admin Portal */
+        .admin-portal {
+            display: none;
+        }
+        
+        .admin-portal.active {
+            display: block;
+        }
+        
+        .admin-header {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+        
+        .admin-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .admin-nav-links li {
+            margin-left: 30px;
+        }
+        
+        .admin-nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .admin-nav-links a:hover {
+            color: var(--gold);
+        }
+        
+        .admin-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            min-height: 70vh;
+        }
+        
+        .admin-sidebar {
+            background-color: var(--light-gray);
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        .admin-sidebar ul {
+            list-style: none;
+        }
+        
+        .admin-sidebar li {
+            margin-bottom: 20px;
+        }
+        
+        .admin-sidebar a {
+            display: flex;
+            align-items: center;
+            color: var(--black);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .admin-sidebar a:hover {
+            background-color: var(--white);
+            color: var(--gold);
+        }
+        
+        .admin-sidebar a i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .admin-sidebar a.active {
+            background-color: var(--gold);
+            color: var(--white);
+        }
+        
+        .admin-main {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        .admin-section h2 {
+            color: var(--gold);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--white);
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--dark-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-green {
+            background-color: var(--green);
+        }
+        
+        .btn-green:hover {
+            background-color: var(--dark-green);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--gold);
+            color: var(--white);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo span:first-child {
+            color: var(--gold);
+        }
+        
+        .footer-logo span:last-child {
+            color: var(--white);
+        }
+        
+        .footer-about p {
+            margin-bottom: 20px;
+            color: #CCCCCC;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+        
+        .footer-links h3 {
+            color: var(--white);
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--gold);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links ul li a {
+            color: #CCCCCC;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--gold);
+        }
+        
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #CCCCCC;
+        }
+        
+        .footer-contact i {
+            color: var(--gold);
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999999;
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .contact-container, .booking-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                padding: 20px;
+            }
+            
+            .hero-title {
+                font-size: 42px;
+            }
+            
+            .about-hero h1 {
+                font-size: 42px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .properties-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .header-container {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                max-width: 350px;
+                order: 3;
+                width: 100%;
+                margin-top: 10px;
+            }
+            
+            .contact-container, .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .properties-grid {
+                grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+                gap: 20px;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .booking-form-container {
+                position: static;
+                top: auto;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            header {
+                padding: 10px 0;
+            }
+            
+            .logo-text {
+                font-size: 24px;
+            }
+            
+            .logo-icon {
+                font-size: 28px;
+            }
+            
+            .hero {
+                padding: 50px 0 30px;
+                margin-top: 70px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+                margin-bottom: 15px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+                margin: 30px 0 20px;
+            }
+            
+            .about-hero {
+                padding: 80px 0;
+            }
+            
+            .about-hero h1 {
+                font-size: 36px;
+                margin-bottom: 15px;
+            }
+            
+            .about-hero p {
+                font-size: 18px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+            }
+            
+            .nav-list.show {
+                display: flex;
+            }
+            
+            .nav-list li {
+                margin: 10px 0;
+            }
+            
+            .search-bar {
+                max-width: 300px;
+                width: 100%;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .user-menu span {
+                display: none;
+            }
+            
+            .properties-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 18px;
+            }
+            
+            .property-img {
+                height: 200px;
+            }
+            
+            .contact-form-container, .booking-form-container {
+                padding: 30px 20px;
+            }
+            
+            .contact-form-container h2, .booking-form-container h2 {
+                font-size: 24px;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 20px;
+            }
+            
+            .member-photo {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+            
+            .member-name {
+                font-size: 18px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .admin-nav-links li {
+                margin-left: 20px;
+            }
+            
+            .admin-main {
+                padding: 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 18px;
+            }
+            
+            header {
+                padding: 8px 0;
+            }
+            
+            .logo-text {
+                font-size: 20px;
+            }
+            
+            .logo-icon {
+                font-size: 24px;
+                margin-right: 8px;
+            }
+            
+            .hero {
+                padding: 40px 0 25px;
+                margin-top: 65px;
+            }
+            
+            .hero-title {
+                font-size: 30px;
+                margin-bottom: 12px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                font-size: 26px;
+                margin: 25px 0 18px;
+            }
+            
+            .categories {
+                padding: 15px 0;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .category-card {
+                min-width: 100px;
+            }
+            
+            .category-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+                margin: 0 auto 8px;
+            }
+            
+            .category-name {
+                font-size: 12px;
+            }
+            
+            .properties-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+                margin-bottom: 40px;
+            }
+            
+            .property-card {
+                margin-bottom: 0;
+            }
+            
+            .property-img {
+                height: 180px;
+            }
+            
+            .property-price {
+                font-size: 16px;
+                padding: 5px 10px;
+            }
+            
+            .property-info {
+                padding: 15px;
+            }
+            
+            .property-title {
+                font-size: 16px;
+                margin-bottom: 6px;
+            }
+            
+            .property-location {
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+            
+            .about-hero {
+                padding: 60px 0;
+                margin-bottom: 40px;
+                border-radius: 8px;
+            }
+            
+            .about-hero h1 {
+                font-size: 28px;
+            }
+            
+            .about-hero p {
+                font-size: 16px;
+                max-width: 100%;
+            }
+            
+            .about-content {
+                gap: 20px;
+            }
+            
+            .about-card {
+                padding: 20px;
+            }
+            
+            .about-card h3 {
+                font-size: 18px;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+            
+            .team-member {
+                padding: 20px 15px;
+            }
+            
+            .member-photo {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+                margin: 0 auto 15px;
+            }
+            
+            .member-name {
+                font-size: 16px;
+            }
+            
+            .member-position {
+                font-size: 13px;
+            }
+            
+            .contact-container {
+                gap: 30px;
+            }
+            
+            .map-container {
+                height: 350px;
+                border-radius: 8px;
+            }
+            
+            .contact-form-container, .booking-form-container {
+                padding: 25px 18px;
+                border-radius: 8px;
+            }
+            
+            .contact-form-container h2, .booking-form-container h2 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+            
+            .form-group {
+                margin-bottom: 16px;
+            }
+            
+            .form-group label {
+                font-size: 14px;
+                margin-bottom: 6px;
+            }
+            
+            .form-control {
+                padding: 12px 14px;
+                font-size: 15px;
+                border-radius: 6px;
+            }
+            
+            textarea.form-control {
+                min-height: 120px;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+            
+            .booking-form-container {
+                position: static;
+                top: auto;
+            }
+            
+            .booking-details {
+                gap: 20px;
+            }
+            
+            .booking-card {
+                padding: 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .admin-nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .admin-nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .admin-nav-links li {
+                margin-left: 0;
+                margin-bottom: 8px;
+            }
+            
+            .admin-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .admin-sidebar {
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            .admin-sidebar li {
+                margin-bottom: 10px;
+            }
+            
+            .admin-sidebar a {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .admin-main {
+                padding: 20px 15px;
+                border-radius: 8px;
+            }
+            
+            .admin-section h2 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            header {
+                padding: 8px 0;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .logo {
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .logo-text {
+                font-size: 18px;
+            }
+            
+            .logo-icon {
+                font-size: 22px;
+                margin-right: 6px;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+                flex: 1 1 100%;
+                margin-top: 8px;
+                order: 3;
+                margin-right: 0;
+            }
+            
+            .user-menu, .mobile-menu-btn {
+                min-width: auto;
+            }
+            
+            .nav-list {
+                top: 65px;
+                padding: 15px;
+                gap: 5px;
+            }
+            
+            .hero {
+                padding: 35px 0 20px;
+                margin-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: 24px;
+                margin-bottom: 10px;
+                line-height: 1.3;
+            }
+            
+            .hero-subtitle {
+                font-size: 15px;
+                margin-bottom: 15px;
+                line-height: 1.4;
+            }
+            
+            .section-title {
+                font-size: 22px;
+                margin: 20px 0 15px;
+                line-height: 1.3;
+            }
+            
+            .categories {
+                padding: 12px 0;
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .category-card {
+                min-width: 90px;
+            }
+            
+            .category-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+                margin: 0 auto 6px;
+            }
+            
+            .category-name {
+                font-size: 11px;
+            }
+            
+            .properties-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 30px;
+            }
+            
+            .property-img {
+                height: 150px;
+            }
+            
+            .property-price {
+                font-size: 14px;
+                padding: 4px 8px;
+                top: 10px;
+                left: 10px;
+            }
+            
+            .property-info {
+                padding: 12px;
+            }
+            
+            .property-title {
+                font-size: 14px;
+                margin-bottom: 4px;
+            }
+            
+            .property-location {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+            
+            .property-rating {
+                font-size: 12px;
+            }
+            
+            .about-hero {
+                padding: 50px 0;
+                margin-bottom: 30px;
+                border-radius: 8px;
+            }
+            
+            .about-hero h1 {
+                font-size: 22px;
+                margin-bottom: 10px;
+            }
+            
+            .about-hero p {
+                font-size: 14px;
+            }
+            
+            .about-content {
+                gap: 15px;
+            }
+            
+            .about-card {
+                padding: 15px;
+                border-radius: 8px;
+            }
+            
+            .about-card h3 {
+                font-size: 16px;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .team-member {
+                padding: 15px 10px;
+            }
+            
+            .ceo-badge {
+                font-size: 12px;
+                padding: 4px 12px;
+                top: -8px;
+            }
+            
+            .member-photo {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+                margin: 0 auto 12px;
+            }
+            
+            .member-name {
+                font-size: 14px;
+                margin-bottom: 3px;
+            }
+            
+            .member-position {
+                font-size: 12px;
+            }
+            
+            .contact-container {
+                gap: 20px;
+            }
+            
+            .map-container {
+                height: 300px;
+                border-radius: 8px;
+            }
+            
+            .contact-form-container, .booking-form-container {
+                padding: 20px 15px;
+                border-radius: 8px;
+            }
+            
+            .contact-form-container h2, .booking-form-container h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 14px;
+            }
+            
+            .form-group label {
+                font-size: 13px;
+                margin-bottom: 5px;
+            }
+            
+            .form-control {
+                padding: 10px 12px;
+                font-size: 14px;
+                border-radius: 6px;
+            }
+            
+            textarea.form-control {
+                min-height: 100px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 13px;
+                width: 100%;
+            }
+            
+            .booking-details {
+                gap: 15px;
+            }
+            
+            .booking-card {
+                padding: 15px;
+            }
+            
+            .page-content {
+                padding: 80px 0 40px;
+                min-height: auto;
+            }
+            
+            .footer-content {
+                gap: 20px;
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .copyright {
+                padding-top: 20px;
+                font-size: 12px;
+            }
+            
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .admin-nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .admin-nav-links li {
+                margin-left: 0;
+            }
+            
+            .admin-nav-links a {
+                font-size: 14px;
+            }
+            
+            .admin-content {
+                gap: 15px;
+            }
+            
+            .admin-sidebar {
+                padding: 12px;
+            }
+            
+            .admin-sidebar a {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+            
+            .admin-main {
+                padding: 15px;
+            }
+            
+            .admin-section h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                max-width: 90vw;
+            }
+            
+            .close-modal {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 12px;
+            }
+            
+            .logo-text {
+                font-size: 16px;
+            }
+            
+            .hero-title {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .property-img {
+                height: 140px;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-hero {
+                padding: 40px 0;
+            }
+            
+            .btn {
+                font-size: 12px;
+                padding: 9px 18px;
+            }
+        }
+        
+        /* Extra small devices */
+        @media (max-width: 360px) {
+            .logo-text {
+                font-size: 14px;
+            }
+            
+            .hero-title {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 18px;
+            }
+            
+            .property-title {
+                font-size: 13px;
+            }
+            
+            .btn {
+                font-size: 11px;
+                padding: 8px 16px;
+            }
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-gray);
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--black);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--green);
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1200;
+            display: none;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .toast.show {
+            display: flex;
+        }
+        
+        .toast i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        /* Login Modal */
+        .login-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .login-option {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-option:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        
+        .login-option i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+        
+        /* Admin Login */
+        .admin-login {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-login h2 {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo" data-page="home">
+    <img src="https://i.imgur.com/YOUR-LOGO-ID.png" alt="MJ Properties Logo" class="logo-img">
+</a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search for properties, locations...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-list" id="navList">
+                    <li><a href="#" class="active" data-page="home">Home</a></li>
+                    <li><a href="#" data-page="about">About Us</a></li>
+                    <li><a href="#" data-page="properties">Properties</a></li>
+                    <li><a href="#" data-page="team">Our Team</a></li>
+                    <li><a href="#" data-page="book">Book Now</a></li>
+                    <li><a href="#" data-page="contact">Contact</a></li>
+                </ul>
+                
+                <div class="user-menu" id="userMenu">
+                    <i class="fas fa-bars user-icon"></i>
+                    <i class="fas fa-user-circle user-icon"></i>
+                    <span>Menu</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <section id="home-page" class="page-content active">
+            <div class="container">
+                <div class="hero">
+                    <h1 class="hero-title">Find your perfect <span>vacation rental</span> in Kampala</h1>
+                    <p class="hero-subtitle">Discover unique homes, apartments, and villas for your next trip with MJ Properties</p>
+                    <a href="#" class="btn" data-page="properties">Explore Properties</a>
+                </div>
+                
+                <!-- Categories -->
+                <div class="categories">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="category-name">Houses</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="category-name">Apartments</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-umbrella-beach"></i>
+                        </div>
+                        <div class="category-name">Beachfront</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div class="category-name">Countryside</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-swimming-pool"></i>
+                        </div>
+                        <div class="category-name">Pool Homes</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="category-name">City Center</div>
+                    </div>
+                </div>
+                
+                <!-- Featured Properties -->
+                <h2 class="section-title">Featured Properties</h2>
+                <div class="properties-grid" id="featuredProperties">
+                    <!-- Properties will be loaded dynamically -->
+                </div>
+                
+                <!-- Experiences -->
+                <h2 class="section-title">Local Experiences</h2>
+                <div class="properties-grid" id="experiences">
+                    <!-- Experiences will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Us Page -->
+        <section id="about-page" class="page-content">
+            <div class="container">
+                <div class="about-hero">
+                    <h1>About MJ Properties</h1>
+                    <p>Premium vacation rentals and real estate services in Kampala, Uganda</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3>Our Story</h3>
+                        <p>Founded in 2018, MJ Properties started as a small family business with a passion for connecting travelers with unique accommodations in Kampala. Today, we've grown into a premier vacation rental and real estate service, offering exceptional properties across Uganda.</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h3>Our Mission</h3>
+                        <p>To provide unforgettable travel experiences through unique, comfortable, and well-maintained properties while delivering exceptional customer service that exceeds expectations.</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h3>Our Values</h3>
+                        <p>• Integrity in all our dealings<br>
+                           • Excellence in property management<br>
+                           • Customer satisfaction as our top priority<br>
+                           • Sustainable tourism practices<br>
+                           • Supporting local communities</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <h3>Why Choose Us?</h3>
+                        <p>• Verified and quality-checked properties<br>
+                           • 24/7 customer support<br>
+                           • Competitive pricing<br>
+                           • Secure payment system<br>
+                           • Local expertise and recommendations</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info" style="background-color: var(--light-gray); padding: 40px; border-radius: 12px; margin-top: 40px;">
+                    <h2 style="color: var(--gold); margin-bottom: 20px;">Contact Information</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        <div>
+                            <h4 style="color: var(--black); margin-bottom: 10px;">Location</h4>
+                            <p><i class="fas fa-map-marker-alt" style="color: var(--gold); margin-right: 10px;"></i> Kampala Gigo, Uganda</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--black); margin-bottom: 10px;">Phone/WhatsApp</h4>
+                            <p><i class="fas fa-phone-alt" style="color: var(--gold); margin-right: 10px;"></i> <a href="tel:+256740286242" style="color: var(--black); text-decoration: none; transition: color 0.3s;">+256 740 286 242</a></p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--black); margin-bottom: 10px;">Email</h4>
+                            <p><i class="fas fa-envelope" style="color: var(--gold); margin-right: 10px;"></i> <a href="mailto:mjsoniainvestmentes@gmail.com" style="color: var(--black); text-decoration: none; transition: color 0.3s;">mjsoniainvestmentes@gmail.com</a></p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--black); margin-bottom: 10px;">Business Hours</h4>
+                            <p><i class="fas fa-clock" style="color: var(--gold); margin-right: 10px;"></i> Mon-Sun: 8:00 AM - 10:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Properties Page -->
+        <section id="properties-page" class="page-content">
+            <div class="container">
+                <h1 class="section-title">Properties for Rent</h1>
+                <p style="margin-bottom: 30px; color: var(--dark-gray);">Browse our curated selection of vacation rentals in Kampala and beyond</p>
+                
+                <div class="properties-grid" id="allProperties">
+                    <!-- Properties will be loaded dynamically -->
+                </div>
+                
+                <!-- Interest Form (Initially Hidden) -->
+                <div id="interest-form-container" class="contact-form-container" style="display: none;">
+                    <h2 id="interest-property-title">Express Interest</h2>
+                    <form id="interest-form">
+                        <div class="form-group">
+                            <label for="interest-name">Full Name *</label>
+                            <input type="text" id="interest-name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-email">Email Address *</label>
+                            <input type="email" id="interest-email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-phone">Phone Number *</label>
+                            <input type="tel" id="interest-phone" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-checkin">Check-in Date *</label>
+                            <input type="date" id="interest-checkin" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-checkout">Check-out Date *</label>
+                            <input type="date" id="interest-checkout" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-guests">Number of Guests *</label>
+                            <input type="number" id="interest-guests" class="form-control" min="1" max="20" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-message">Additional Message</label>
+                            <textarea id="interest-message" class="form-control" placeholder="Tell us more about your stay requirements..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-green">Submit Interest</button>
+                        <button type="button" class="btn btn-outline" id="cancel-interest">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our Team Page -->
+        <section id="team-page" class="page-content">
+            <div class="container">
+                <h1 class="section-title" style="text-align: center;">Our Team</h1>
+                <p style="margin-bottom: 40px; color: var(--dark-gray); max-width: 800px; text-align: center;">Meet the dedicated professionals behind MJ Properties who work tirelessly to ensure you have the best experience</p>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="images/Mj sonia 1.jpg" alt="MJ Sonia" >
+                        </div>
+                        <h3 class="member-name">MJ SONIA</h3>
+                        <div class="member-position">Chief Executive Officer</div>
+                        <p>With over 12 years in hospitality and real estate, MJ Sonia founded MJ Properties with a vision to transform vacation rentals in Uganda.</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">David Kato</h3>
+                        <div class="member-position">Operations Manager</div>
+                        <p>David ensures all properties meet our quality standards and manages our team of property caretakers.</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <img src="images/marvin.jpg" alt="Marvin Matovu" >
+                        </div>
+                        <h3 class="member-name"> Marvin Matovu </h3>
+                        <div class="member-position">Manager</div>
+                        <p>Marvin leads our customer support team and works to ensure every guest has a memorable stay.</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-photo">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Munezero  OLivier </h3>
+                        <div class="member-position">Web Design Manager</div>
+                        <p>Robert sources and vets new properties to add to our portfolio, ensuring they meet our standards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Book Now Page -->
+        <section id="book-page" class="page-content">
+            <div class="container">
+                <h1 class="section-title">Book Your Stay</h1>
+                <p style="margin-bottom: 40px; color: var(--dark-gray);">Find and book your perfect vacation rental in Kampala</p>
+                
+                <div class="booking-container">
+                    <div class="booking-details">
+                        <div class="booking-card">
+                            <h3 style="color: var(--gold); margin-bottom: 20px;">How It Works</h3>
+                            <div style="display: grid; gap: 20px;">
+                                <div>
+                                    <h4 style="color: var(--black); margin-bottom: 10px;">1. Search Properties</h4>
+                                    <p>Browse our collection of properties and use filters to find your perfect match.</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--black); margin-bottom: 10px;">2. Check Availability</h4>
+                                    <p>Select your dates and see if the property is available for your stay.</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--black); margin-bottom: 10px;">3. Book Securely</h4>
+                                    <p>Complete your booking with our secure payment system.</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--black); margin-bottom: 10px;">4. Enjoy Your Stay</h4>
+                                    <p>Check in and enjoy your vacation with 24/7 support from our team.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-card">
+                            <h3 style="color: var(--gold); margin-bottom: 20px;">Cancellation Policy</h3>
+                            <p>We offer flexible cancellation options for most properties:</p>
+                            <ul style="margin-top: 15px; padding-left: 20px;">
+                                <li style="margin-bottom: 10px;">Free cancellation up to 48 hours before check-in</li>
+                                <li style="margin-bottom: 10px;">50% refund if cancelled within 48 hours of check-in</li>
+                                <li>No refund for no-shows or early departures</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-form-container">
+                        <h2 style="color: var(--gold); margin-bottom: 30px;">Booking Request</h2>
+                        <form id="booking-form">
+                            <div class="form-group">
+                                <label for="booking-property">Select Property *</label>
+                                <select id="booking-property" class="form-control" required>
+                                    <option value="">Choose a property</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-checkin">Check-in Date *</label>
+                                <input type="date" id="booking-checkin" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-checkout">Check-out Date *</label>
+                                <input type="date" id="booking-checkout" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-guests">Number of Guests *</label>
+                                <input type="number" id="booking-guests" class="form-control" min="1" max="20" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-name">Full Name *</label>
+                                <input type="text" id="booking-name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-email">Email Address *</label>
+                                <input type="email" id="booking-email" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-phone">Phone Number *</label>
+                                <input type="tel" id="booking-phone" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="booking-message">Special Requests</label>
+                                <textarea id="booking-message" class="form-control" placeholder="Any special requests or requirements..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-green" style="width: 100%;">Submit Booking Request</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Us Page -->
+        <section id="contact-page" class="page-content">
+            <div class="container">
+                <h1 class="section-title">Contact Us</h1>
+                <p style="margin-bottom: 40px; color: var(--dark-gray);">Get in touch with our team for any inquiries or assistance</p>
+                
+                <div class="contact-container">
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63820.60212981564!2d32.56083924999999!3d0.34759634999999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbb93f4b30b19%3A0x4e0d5cde38474f8f!2sKampala%2C%20Uganda!5e0!3m2!1sen!2s!4v1689957247532!5m2!1sen!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    
+                    <div class="contact-form-container">
+                        <h2>Send Us a Message</h2>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="contact-name">Full Name *</label>
+                                <input type="text" id="contact-name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-email">Email Address *</label>
+                                <input type="email" id="contact-email" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-phone">Phone Number</label>
+                                <input type="tel" id="contact-phone" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-subject">Subject *</label>
+                                <select id="contact-subject" class="form-control" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="booking">Booking Inquiry</option>
+                                    <option value="property">Property Listing</option>
+                                    <option value="support">Customer Support</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact-message">Message *</label>
+                                <textarea id="contact-message" class="form-control" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Admin Portal (Hidden by default) -->
+        <section id="admin-portal" class="admin-portal">
+            <div class="admin-header">
+                <div class="container admin-nav">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-gold">MJ</span>
+                            <span class="logo-black">Admin</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="admin-nav-links">
+                        <li><a href="#" id="logout-admin">Logout</a></li>
+                        <li><a href="#" data-page="home">Back to Website</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="admin-content">
+                    <div class="admin-sidebar">
+                        <ul>
+                            <li><a href="#" class="admin-nav-link active" data-admin-section="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                            <li><a href="#" class="admin-nav-link" data-admin-section="properties-admin"><i class="fas fa-home"></i> Properties</a></li>
+                            <li><a href="#" class="admin-nav-link" data-admin-section="bookings"><i class="fas fa-calendar-check"></i> Bookings</a></li>
+                            <li><a href="#" class="admin-nav-link" data-admin-section="users"><i class="fas fa-users"></i> Users</a></li>
+                            <li><a href="#" class="admin-nav-link" data-admin-section="messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                            <li><a href="#" class="admin-nav-link" data-admin-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="admin-main">
+                        <!-- Dashboard -->
+                        <div class="admin-section active" id="dashboard">
+                            <h2>Admin Dashboard</h2>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                                <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px;">
+                                    <h3 style="color: var(--gold); margin-bottom: 10px;">Total Properties</h3>
+                                    <p style="font-size: 32px; font-weight: 700;" id="total-properties">24</p>
+                                </div>
+                                <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px;">
+                                    <h3 style="color: var(--gold); margin-bottom: 10px;">Active Bookings</h3>
+                                    <p style="font-size: 32px; font-weight: 700;" id="active-bookings">18</p>
+                                </div>
+                                <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px;">
+                                    <h3 style="color: var(--gold); margin-bottom: 10px;">Messages</h3>
+                                    <p style="font-size: 32px; font-weight: 700;" id="total-messages">42</p>
+                                </div>
+                                <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px;">
+                                    <h3 style="color: var(--gold); margin-bottom: 10px;">Revenue</h3>
+                                    <p style="font-size: 32px; font-weight: 700;" id="total-revenue">$12,540</p>
+                                </div>
+                            </div>
+                            
+                            <h3 style="margin: 30px 0 20px;">Recent Bookings</h3>
+                            <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray);">
+                                            <th style="padding: 12px; text-align: left;">Guest</th>
+                                            <th style="padding: 12px; text-align: left;">Property</th>
+                                            <th style="padding: 12px; text-align: left;">Dates</th>
+                                            <th style="padding: 12px; text-align: left;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-bookings">
+                                        <!-- Recent bookings will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h3 style="margin: 30px 0 20px;">Recent Properties</h3>
+                            <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray);">
+                                            <th style="padding: 12px; text-align: left;">Title</th>
+                                            <th style="padding: 12px; text-align: left;">Location</th>
+                                            <th style="padding: 12px; text-align: left;">Price</th>
+                                            <th style="padding: 12px; text-align: left;">Date Added</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-properties">
+                                        <!-- Recent properties will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Properties Management -->
+                        <div class="admin-section" id="properties-admin">
+                            <h2>Properties Management</h2>
+                            <button class="btn" id="add-property-btn" style="margin-bottom: 20px;"><i class="fas fa-plus"></i> Add New Property</button>
+                            
+                            <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray);">
+                                            <th style="padding: 12px; text-align: left;">Property</th>
+                                            <th style="padding: 12px; text-align: left;">Location</th>
+                                            <th style="padding: 12px; text-align: left;">Price</th>
+                                            <th style="padding: 12px; text-align: left;">Status</th>
+                                            <th style="padding: 12px; text-align: left;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-properties-list">
+                                        <!-- Properties will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Bookings Management -->
+                        <div class="admin-section" id="bookings">
+                            <h2>Bookings Management</h2>
+                            <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray);">
+                                            <th style="padding: 12px; text-align: left;">Booking ID</th>
+                                            <th style="padding: 12px; text-align: left;">Guest</th>
+                                            <th style="padding: 12px; text-align: left;">Phone</th>
+                                            <th style="padding: 12px; text-align: left;">Property</th>
+                                            <th style="padding: 12px; text-align: left;">Check-in</th>
+                                            <th style="padding: 12px; text-align: left;">Check-out</th>
+                                            <th style="padding: 12px; text-align: left;">Status</th>
+                                            <th style="padding: 12px; text-align: left;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-bookings-list">
+                                        <!-- Bookings will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Users Management -->
+                        <div class="admin-section" id="users">
+                            <h2>Users Management</h2>
+                            <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray);">
+                                            <th style="padding: 12px; text-align: left;">Name</th>
+                                            <th style="padding: 12px; text-align: left;">Email</th>
+                                            <th style="padding: 12px; text-align: left;">Phone</th>
+                                            <th style="padding: 12px; text-align: left;">Role</th>
+                                            <th style="padding: 12px; text-align: left;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-users-list">
+                                        <!-- Users will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Messages -->
+                        <div class="admin-section" id="messages">
+                            <h2>Messages</h2>
+                            <div style="background-color: var(--light-gray); padding: 20px; border-radius: 8px; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid var(--gray);">
+                                            <th style="padding: 12px; text-align: left;">From</th>
+                                            <th style="padding: 12px; text-align: left;">Subject</th>
+                                            <th style="padding: 12px; text-align: left;">Date</th>
+                                            <th style="padding: 12px; text-align: left;">Status</th>
+                                            <th style="padding: 12px; text-align: left;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-messages-list">
+                                        <!-- Messages will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Settings -->
+                        <div class="admin-section" id="settings">
+                            <h2>Settings</h2>
+                            <form id="admin-settings-form">
+                                <div class="form-group">
+                                    <label for="site-name">Site Name</label>
+                                    <input type="text" id="site-name" class="form-control" value="MJ Properties">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="site-email">Site Email</label>
+                                    <input type="email" id="site-email" class="form-control" value="mjsoniainvestmentes@gmail.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="site-phone">Site Phone</label>
+                                    <input type="tel" id="site-phone" class="form-control" value="+256740286242">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="site-location">Site Location</label>
+                                    <input type="text" id="site-location" class="form-control" value="Kampala Gigo, Uganda">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="commission-rate">Commission Rate (%)</label>
+                                    <input type="number" id="commission-rate" class="form-control" value="15" min="0" max="50">
+                                </div>
+                                
+                                <button type="submit" class="btn">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <span>MJ</span>
+                        <span>Properties</span>
+                    </div>
+                    <p>Premium vacation rentals and real estate services in Kampala, Uganda. Experience the best of Uganda with our curated properties.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/mjsonia_properties?igsh=MWo0dnh6MDYyZDBmMA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/256740286242"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" data-page="home">Home</a></li>
+                        <li><a href="#" data-page="about">About Us</a></li>
+                        <li><a href="#" data-page="properties">Properties</a></li>
+                        <li><a href="#" data-page="team">Our Team</a></li>
+                        <li><a href="#" data-page="book">Book Now</a></li>
+                        <li><a href="#" data-page="contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Property Types</h3>
+                    <ul>
+                        <li><a href="#">Apartments</a></li>
+                        <li><a href="#">Villas</a></li>
+                        <li><a href="#">Beach Houses</a></li>
+                        <li><a href="#">Country Homes</a></li>
+                        <li><a href="#">City Apartments</a></li>
+                        <li><a href="#">Luxury Estates</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Kampala Gigo, Uganda</p>
+                    <p><i class="fas fa-phone-alt"></i> <a href="tel:+256740286242" style="color: inherit; text-decoration: none; transition: color 0.3s;">+256 740 286 242</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:mjsoniainvestmentes@gmail.com" style="color: inherit; text-decoration: none; transition: color 0.3s;">mjsoniainvestmentes@gmail.com</a></p>
+                    <p><i class="fas fa-clock"></i> 24/7 Customer Support</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="current-year">2023</span> MJ Properties. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--gold);"></i> for premium vacation experiences</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-login-modal">&times;</button>
+            <h2 style="color: var(--gold); margin-bottom: 20px;">Welcome to MJ Properties</h2>
+            <p style="margin-bottom: 30px;">Sign in to book properties, manage your trips, and more.</p>
+            
+            <div class="login-options">
+                <div class="login-option" id="guest-login">
+                    <i class="fas fa-user"></i>
+                    <h4>Continue as Guest</h4>
+                    <p>Book without an account</p>
+                </div>
+                <div class="login-option" id="admin-login-btn">
+                    <i class="fas fa-cogs"></i>
+                    <h4>Admin Login</h4>
+                    <p>Access admin portal</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--gray);">
+                <p style="text-align: center; color: var(--dark-gray);">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Login Modal -->
+    <div class="modal" id="admin-login-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-admin-login-modal">&times;</button>
+            <h2 style="color: var(--gold); margin-bottom: 30px; text-align: center;">Admin Login</h2>
+            
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="admin-username">Username</label>
+                    <input type="text" id="admin-username" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" class="form-control" required>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Property Modal -->
+    <div class="modal" id="add-property-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-add-property-modal">&times;</button>
+            <h2 style="color: var(--gold); margin-bottom: 20px;">Add New Property</h2>
+            
+            <form id="add-property-form">
+                <div class="form-group">
+                    <label for="property-title">Property Title *</label>
+                    <input type="text" id="property-title" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-location">Location *</label>
+                    <input type="text" id="property-location" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-price">Price per Night ($) *</label>
+                    <input type="number" id="property-price" class="form-control" required min="10">
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-type">Property Type *</label>
+                    <select id="property-type" class="form-control" required>
+                        <option value="">Select type</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="house">House</option>
+                        <option value="villa">Villa</option>
+                        <option value="cottage">Cottage</option>
+                        <option value="cabin">Cabin</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-bedrooms">Bedrooms *</label>
+                    <input type="number" id="property-bedrooms" class="form-control" required min="1" max="20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-bathrooms">Bathrooms *</label>
+                    <input type="number" id="property-bathrooms" class="form-control" required min="1" max="20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-guests">Max Guests *</label>
+                    <input type="number" id="property-guests" class="form-control" required min="1" max="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-description">Description *</label>
+                    <textarea id="property-description" class="form-control" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="property-image">Image URL or Upload *</label>
+                    <input type="text" id="property-image" class="form-control" required placeholder="Paste image URL, upload image, or drag & drop">
+                    <input type="file" id="property-image-file" class="form-control" accept="image/*" style="margin-top: 10px; display: block;">
+                    <small style="color: var(--dark-gray); display: block; margin-top: 8px;">Tip: You can paste an image URL, select a file to upload, or drag & drop an image</small>
+                </div>
+                
+                <button type="submit" class="btn">Add Property</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Operation completed successfully!</span>
+    </div>
+    
+    <script>
+        // Initialize Data
+        const properties = [
+            {
+                id: 1,
+                title: "Luxury Villa with Pool",
+                location: "Kololo, Kampala",
+                price: 250,
+                type: "villa",
+                bedrooms: 4,
+                bathrooms: 3,
+                guests: 8,
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Stunning villa with private pool and panoramic city views."
+            },
+            {
+                id: 2,
+                title: "Modern Apartment in City Center",
+                location: "Nakasero, Kampala",
+                price: 120,
+                type: "apartment",
+                bedrooms: 2,
+                bathrooms: 2,
+                guests: 4,
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Contemporary apartment with all amenities in the heart of the city."
+            },
+            {
+                id: 3,
+                title: "Beachfront Cottage",
+                location: "Entebbe",
+                price: 180,
+                type: "cottage",
+                bedrooms: 3,
+                bathrooms: 2,
+                guests: 6,
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=1465&q=80",
+                description: "Charming cottage with direct beach access and sunset views."
+            },
+            {
+                id: 4,
+                title: "Family House with Garden",
+                location: "Muyenga, Kampala",
+                price: 200,
+                type: "house",
+                bedrooms: 5,
+                bathrooms: 4,
+                guests: 10,
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Spacious family home with large garden and outdoor entertainment area."
+            }
+        ];
+        
+        const experiences = [
+            {
+                id: 1,
+                title: "Kampala City Tour",
+                location: "Kampala",
+                price: 50,
+                type: "tour",
+                rating: 4.8,
+                image: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Guided tour of Kampala's historical and cultural sites."
+            },
+            {
+                id: 2,
+                title: "Lake Victoria Boat Cruise",
+                location: "Entebbe",
+                price: 80,
+                type: "cruise",
+                rating: 4.9,
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Sunset boat cruise on Lake Victoria with refreshments."
+            },
+            {
+                id: 3,
+                title: "Ugandan Cooking Class",
+                location: "Kampala",
+                price: 40,
+                type: "cooking",
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                description: "Learn to cook traditional Ugandan dishes with a local chef."
+            }
+        ];
+        
+        let bookings = [];
+        let messages = [];
+        let users = [
+            { id: 1, name: "Admin User", email: "admin@mjproperties.com", phone: "+256740286242", role: "admin" },
+            { id: 2, name: "John Doe", email: "john@example.com", phone: "+256712345678", role: "guest" }
+        ];
+        
+        // DOM Elements
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navList = document.getElementById('navList');
+        const userMenu = document.getElementById('userMenu');
+        const pageContents = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-list a, .logo, .footer-links a');
+        const adminLink = document.getElementById('admin-link');
+        const adminPortal = document.getElementById('admin-portal');
+        const logoutAdmin = document.getElementById('logout-admin');
+        const adminNavLinks = document.querySelectorAll('.admin-nav-link');
+        const adminSections = document.querySelectorAll('.admin-section');
+        const loginModal = document.getElementById('login-modal');
+        const closeLoginModal = document.getElementById('close-login-modal');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminLoginModal = document.getElementById('admin-login-modal');
+        const closeAdminLoginModal = document.getElementById('close-admin-login-modal');
+        const adminLoginForm = document.getElementById('admin-login-form');
+        const addPropertyBtn = document.getElementById('add-property-btn');
+        const addPropertyModal = document.getElementById('add-property-modal');
+        const closeAddPropertyModal = document.getElementById('close-add-property-modal');
+        const addPropertyForm = document.getElementById('add-property-form');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const interestFormContainer = document.getElementById('interest-form-container');
+        const cancelInterest = document.getElementById('cancel-interest');
+        const interestForm = document.getElementById('interest-form');
+        
+        // Initialize current page
+        let currentPage = 'home';
+        
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            navList.classList.toggle('show');
+        });
+        
+        // User Menu Click - Show Login Modal
+        userMenu.addEventListener('click', () => {
+            loginModal.classList.add('show');
+        });
+        
+        // Close Login Modal
+        closeLoginModal.addEventListener('click', () => {
+            loginModal.classList.remove('show');
+        });
+        
+        // Admin Login Button
+        adminLoginBtn.addEventListener('click', () => {
+            loginModal.classList.remove('show');
+            adminLoginModal.classList.add('show');
+        });
+        
+        // Close Admin Login Modal
+        closeAdminLoginModal.addEventListener('click', () => {
+            adminLoginModal.classList.remove('show');
+        });
+        
+        // Admin Login Form Submission
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            // Simple authentication (in real app, this would be server-side)
+            
+            if (username === 'admin' && password === 'password123') {
+                showToast('Admin login successful!');
+                adminLoginModal.classList.remove('show');
+                
+                // Hide all pages and show admin portal
+                pageContents.forEach(page => page.classList.remove('active'));
+                adminPortal.classList.add('active');
+                
+                // Update admin dashboard
+                updateAdminDashboard();
+            } else {
+                showToast('Invalid credentials. Try admin / password123', 'error');
+            }
+        });
+        
+        // Logout from Admin
+        logoutAdmin.addEventListener('click', (e) => {
+            e.preventDefault();
+            adminPortal.classList.remove('active');
+            showPage('home');
+            showToast('Logged out successfully');
+        });
+        
+        // Admin Navigation
+        adminNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.getAttribute('data-admin-section');
+                
+                // Update active link
+                adminNavLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show section
+                adminSections.forEach(s => s.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+            });
+        });
+        
+        // Add Property Button
+        addPropertyBtn.addEventListener('click', () => {
+            addPropertyModal.classList.add('show');
+        });
+        
+        // Close Add Property Modal
+        closeAddPropertyModal.addEventListener('click', () => {
+            addPropertyModal.classList.remove('show');
+        });
+        
+        // Handle property image file upload
+        const propertyImageInput = document.getElementById('property-image');
+        const propertyImageFileInput = document.getElementById('property-image-file');
+        
+        propertyImageFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    propertyImageInput.value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Handle paste event for images
+        propertyImageInput.addEventListener('paste', (e) => {
+            const items = e.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].kind === 'file' && items[i].type.startsWith('image/')) {
+                    const file = items[i].getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        propertyImageInput.value = event.target.result;
+                        showToast('Image pasted successfully!');
+                    };
+                    reader.readAsDataURL(file);
+                    e.preventDefault();
+                    break;
+                }
+            }
+        });
+        
+        // Allow drag and drop on the image input
+        propertyImageInput.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            propertyImageInput.style.backgroundColor = 'var(--light-gray)';
+        });
+        
+        propertyImageInput.addEventListener('dragleave', (e) => {
+            propertyImageInput.style.backgroundColor = 'var(--white)';
+        });
+        
+        propertyImageInput.addEventListener('drop', (e) => {
+            e.preventDefault();
+            propertyImageInput.style.backgroundColor = 'var(--white)';
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    propertyImageInput.value = event.target.result;
+                    showToast('Image added successfully!');
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        });
+        
+        // Add Property Form Submission
+        addPropertyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const editIndex = addPropertyForm.dataset.editIndex;
+            
+            const propertyData = {
+                id: editIndex !== undefined ? properties[editIndex].id : properties.length + 1,
+                title: document.getElementById('property-title').value,
+                location: document.getElementById('property-location').value,
+                price: parseInt(document.getElementById('property-price').value),
+                type: document.getElementById('property-type').value,
+                bedrooms: parseInt(document.getElementById('property-bedrooms').value),
+                bathrooms: parseInt(document.getElementById('property-bathrooms').value),
+                guests: parseInt(document.getElementById('property-guests').value),
+                description: document.getElementById('property-description').value,
+                image: document.getElementById('property-image').value,
+                rating: editIndex !== undefined ? properties[editIndex].rating : 4.5,
+                dateAdded: editIndex !== undefined ? properties[editIndex].dateAdded : new Date().toISOString()
+            };
+            
+            if (editIndex !== undefined) {
+                // Update existing property
+                properties[editIndex] = propertyData;
+                showToast('Property updated successfully!');
+                delete addPropertyForm.dataset.editIndex;
+            } else {
+                // Add new property
+                properties.push(propertyData);
+                showToast('Property added successfully!');
+            }
+            
+            localStorage.setItem('properties', JSON.stringify(properties));
+            addPropertyModal.classList.remove('show');
+            addPropertyForm.reset();
+            
+            // Update property displays
+            renderProperties();
+            updateAdminDashboard();
+            populateBookingProperties();
+        });
+        
+        // Page Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (link.hasAttribute('data-page')) {
+                    e.preventDefault();
+                    
+                    // Hide mobile menu if open
+                    navList.classList.remove('show');
+                    
+                    // Get page to show
+                    const page = link.getAttribute('data-page');
+                    
+                    // If admin link, show admin login modal
+                    if (link.id === 'admin-link') {
+                        adminLoginModal.classList.add('show');
+                        return;
+                    }
+                    
+                    // Show the page
+                    showPage(page);
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-list a').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    
+                    if (link.classList.contains('nav-list')) {
+                        link.classList.add('active');
+                    } else {
+                        // Find corresponding nav link and make it active
+                        const navLink = document.querySelector(`.nav-list a[data-page="${page}"]`);
+                        if (navLink) navLink.classList.add('active');
+                    }
+                }
+            });
+        });
+        
+        // Function to show a page
+        function showPage(page) {
+            // Hide all pages
+            pageContents.forEach(pageContent => {
+                pageContent.classList.remove('active');
+            });
+            
+            // Hide admin portal if visible
+            adminPortal.classList.remove('active');
+            
+            // Show the requested page
+            document.getElementById(`${page}-page`).classList.add('active');
+            currentPage = page;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Load page-specific content
+            if (page === 'home') {
+                renderFeaturedProperties();
+                renderExperiences();
+            } else if (page === 'properties') {
+                renderProperties();
+            } else if (page === 'book') {
+                populateBookingProperties();
+            }
+        }
+        
+        // Function to render featured properties
+        function renderFeaturedProperties() {
+            const container = document.getElementById('featuredProperties');
+            container.innerHTML = '';
+            
+            properties.slice(0, 4).forEach(property => {
+                const propertyCard = createPropertyCard(property);
+                container.appendChild(propertyCard);
+            });
+        }
+        
+        // Function to render all properties
+        function renderProperties() {
+            const container = document.getElementById('allProperties');
+            container.innerHTML = '';
+            
+            properties.forEach(property => {
+                const propertyCard = createPropertyCard(property, true);
+                container.appendChild(propertyCard);
+            });
+        }
+        
+        // Function to create property card
+        function createPropertyCard(property, showInterestBtn = false) {
+            const card = document.createElement('div');
+            card.className = 'property-card';
+            card.innerHTML = `
+                <div class="property-img" style="background-image: url('${property.image}')">
+                    <div class="property-price">$${property.price}<span style="font-size: 14px; font-weight: normal;">/night</span></div>
+                </div>
+                <div class="property-info">
+                    <h3 class="property-title">${property.title}</h3>
+                    <div class="property-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${property.location}</span>
+                    </div>
+                    <p>${property.description}</p>
+                    <div class="property-rating">
+                        <div class="rating-stars">
+                            ${generateStarRating(property.rating)}
+                        </div>
+                        <div class="rating-number">${property.rating}</div>
+                    </div>
+                    ${showInterestBtn ? `<button class="btn" style="width: 100%; margin-top: 15px;" data-property-id="${property.id}">Express Interest</button>` : ''}
+                </div>
+            `;
+            
+            // Add event listener to interest button if present
+            if (showInterestBtn) {
+                const interestBtn = card.querySelector('button');
+                interestBtn.addEventListener('click', () => {
+                    document.getElementById('interest-property-title').textContent = `Express Interest in ${property.title}`;
+                    interestFormContainer.style.display = 'block';
+                    interestFormContainer.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Store property ID in form for submission
+                    interestForm.setAttribute('data-property-id', property.id);
+                });
+            }
+            
+            return card;
+        }
+        
+        // Function to generate star rating
+        function generateStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+        
+        // Function to render experiences
+        function renderExperiences() {
+            const container = document.getElementById('experiences');
+            container.innerHTML = '';
+            
+            experiences.forEach(experience => {
+                const experienceCard = document.createElement('div');
+                experienceCard.className = 'property-card';
+                experienceCard.innerHTML = `
+                    <div class="property-img" style="background-image: url('${experience.image}')">
+                        <div class="property-price">$${experience.price}<span style="font-size: 14px; font-weight: normal;">/person</span></div>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">${experience.title}</h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${experience.location}</span>
+                        </div>
+                        <p>${experience.description}</p>
+                        <div class="property-rating">
+                            <div class="rating-stars">
+                                ${generateStarRating(experience.rating)}
+                            </div>
+                            <div class="rating-number">${experience.rating}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(experienceCard);
+            });
+        }
+        
+        // Cancel Interest Form
+        cancelInterest.addEventListener('click', () => {
+            interestFormContainer.style.display = 'none';
+            interestForm.reset();
+        });
+        
+        // Interest Form Submission
+        interestForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const propertyId = interestForm.getAttribute('data-property-id');
+            const property = properties.find(p => p.id == propertyId);
+            
+            const interestData = {
+                property: property.title,
+                name: document.getElementById('interest-name').value,
+                email: document.getElementById('interest-email').value,
+                phone: document.getElementById('interest-phone').value,
+                checkin: document.getElementById('interest-checkin').value,
+                checkout: document.getElementById('interest-checkout').value,
+                guests: document.getElementById('interest-guests').value,
+                message: document.getElementById('interest-message').value,
+                date: new Date().toISOString()
+            };
+            
+            // Store the interest (in real app, this would be sent to a server)
+            messages.push({
+                id: messages.length + 1,
+                type: 'interest',
+                data: interestData,
+                status: 'new',
+                date: new Date().toISOString()
+            });
+            
+            interestFormContainer.style.display = 'none';
+            interestForm.reset();
+            
+            showToast('Interest submitted successfully! We will contact you soon.');
+        });
+        
+        // Contact Form Submission
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const contactData = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                phone: document.getElementById('contact-phone').value,
+                subject: document.getElementById('contact-subject').value,
+                message: document.getElementById('contact-message').value,
+                date: new Date().toISOString()
+            };
+            
+            // Store the message (in real app, this would be sent to a server)
+            messages.push({
+                id: messages.length + 1,
+                type: 'contact',
+                data: contactData,
+                status: 'new',
+                date: new Date().toISOString()
+            });
+            
+            document.getElementById('contact-form').reset();
+            showToast('Message sent successfully! We will respond within 24 hours.');
+        });
+        
+        // Booking Form Submission
+        document.getElementById('booking-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const propertyId = document.getElementById('booking-property').value;
+            const property = properties.find(p => p.id == propertyId);
+            
+            const bookingData = {
+                id: bookings.length + 1,
+                property: property.title,
+                propertyId: propertyId,
+                name: document.getElementById('booking-name').value,
+                email: document.getElementById('booking-email').value,
+                phone: document.getElementById('booking-phone').value,
+                checkin: document.getElementById('booking-checkin').value,
+                checkout: document.getElementById('booking-checkout').value,
+                guests: document.getElementById('booking-guests').value,
+                message: document.getElementById('booking-message').value,
+                status: 'pending',
+                date: new Date().toISOString()
+            };
+            
+            bookings.push(bookingData);
+            document.getElementById('booking-form').reset();
+            
+            showToast('Booking request submitted! We will confirm availability and contact you.');
+            
+            // Update admin dashboard if admin is logged in
+            if (adminPortal.classList.contains('active')) {
+                updateAdminDashboard();
+            }
+        });
+        
+        // Populate booking properties dropdown
+        function populateBookingProperties() {
+            const select = document.getElementById('booking-property');
+            select.innerHTML = '<option value="">Choose a property</option>';
+            
+            properties.forEach(property => {
+                const option = document.createElement('option');
+                option.value = property.id;
+                option.textContent = `${property.title} - $${property.price}/night`;
+                select.appendChild(option);
+            });
+        }
+        
+        // Update Admin Dashboard
+        function updateAdminDashboard() {
+            // Update stats
+            document.getElementById('total-properties').textContent = properties.length;
+            document.getElementById('active-bookings').textContent = bookings.filter(b => b.status === 'confirmed').length;
+            document.getElementById('total-messages').textContent = messages.length;
+            document.getElementById('total-revenue').textContent = `$${bookings.reduce((total, booking) => {
+                if (booking.status === 'confirmed') {
+                    const property = properties.find(p => p.id == booking.propertyId);
+                    if (property) {
+                        // Calculate approximate revenue (in real app, this would be actual calculations)
+                        return total + (property.price * 3); // Assuming 3 nights average
+                    }
+                }
+                return total;
+            }, 0)}`;
+            
+            // Update recent bookings
+            const recentBookingsContainer = document.getElementById('recent-bookings');
+            recentBookingsContainer.innerHTML = '';
+            
+            const recentBookings = bookings.slice(-5).reverse();
+            recentBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px;">${booking.name}</td>
+                    <td style="padding: 12px;">${booking.property}</td>
+                    <td style="padding: 12px;">${booking.checkin} to ${booking.checkout}</td>
+                    <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${booking.status === 'confirmed' ? 'var(--green)' : booking.status === 'pending' ? 'var(--gold)' : 'var(--gray)'}; color: white; font-size: 12px;">${booking.status}</span></td>
+                `;
+                recentBookingsContainer.appendChild(row);
+            });
+            
+            // Update recent properties
+            const recentPropertiesContainer = document.getElementById('recent-properties');
+            if (recentPropertiesContainer) {
+                recentPropertiesContainer.innerHTML = '';
+                
+                const recentProps = properties.slice(-5).reverse();
+                recentProps.forEach(property => {
+                    const row = document.createElement('tr');
+                    const dateAdded = property.dateAdded ? new Date(property.dateAdded).toLocaleDateString() : 'N/A';
+                    row.innerHTML = `
+                        <td style="padding: 12px;">${property.title}</td>
+                        <td style="padding: 12px;">${property.location}</td>
+                        <td style="padding: 12px;">$${property.price}/night</td>
+                        <td style="padding: 12px;">${dateAdded}</td>
+                    `;
+                    recentPropertiesContainer.appendChild(row);
+                });
+            }
+            
+            // Update properties list
+            const propertiesList = document.getElementById('admin-properties-list');
+            propertiesList.innerHTML = '';
+            
+            properties.forEach((property, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px;">${property.title}</td>
+                    <td style="padding: 12px;">${property.location}</td>
+                    <td style="padding: 12px;">$${property.price}/night</td>
+                    <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: var(--green); color: white; font-size: 12px;">Active</span></td>
+                    <td style="padding: 12px;">
+                        <button class="btn edit-property-btn" data-index="${index}" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">Edit</button>
+                        <button class="btn btn-outline delete-property-btn" data-index="${index}" style="padding: 6px 12px; font-size: 12px;">Delete</button>
+                    </td>
+                `;
+                propertiesList.appendChild(row);
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-property-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    const property = properties[index];
+                    // Pre-fill the form with property data
+                    document.getElementById('property-title').value = property.title;
+                    document.getElementById('property-location').value = property.location;
+                    document.getElementById('property-price').value = property.price;
+                    document.getElementById('property-beds').value = property.beds;
+                    document.getElementById('property-baths').value = property.baths;
+                    document.getElementById('property-description').value = property.description;
+                    document.getElementById('property-image').value = property.image;
+                    document.getElementById('property-image-file').value = '';
+                    // Store the index to know which property to update
+                    document.getElementById('add-property-form').dataset.editIndex = index;
+                    // Open the modal
+                    addPropertyModal.classList.add('show');
+                });
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-property-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    if (confirm('Are you sure you want to delete this property?')) {
+                        properties.splice(index, 1);
+                        localStorage.setItem('properties', JSON.stringify(properties));
+                        showToast('Property deleted successfully!');
+                        displayAdminDashboard();
+                    }
+                });
+            });
+            
+            // Update bookings list
+            const bookingsList = document.getElementById('admin-bookings-list');
+            bookingsList.innerHTML = '';
+            
+            bookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px;">#${booking.id}</td>
+                    <td style="padding: 12px;">${booking.name}</td>
+                    <td style="padding: 12px;"><a href="tel:${booking.phone}" style="color: var(--gold); text-decoration: none;">${booking.phone}</a></td>
+                    <td style="padding: 12px;">${booking.property}</td>
+                    <td style="padding: 12px;">${booking.checkin}</td>
+                    <td style="padding: 12px;">${booking.checkout}</td>
+                    <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${booking.status === 'confirmed' ? 'var(--green)' : booking.status === 'pending' ? 'var(--gold)' : 'var(--gray)'}; color: white; font-size: 12px;">${booking.status}</span></td>
+                    <td style="padding: 12px;">
+                        <button class="btn" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">View</button>
+                        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">Update</button>
+                    </td>
+                `;
+                bookingsList.appendChild(row);
+            });
+            
+            // Update users list
+            const usersList = document.getElementById('admin-users-list');
+            usersList.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px;">${user.name}</td>
+                    <td style="padding: 12px;">${user.email}</td>
+                    <td style="padding: 12px;">${user.phone}</td>
+                    <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${user.role === 'admin' ? 'var(--gold)' : 'var(--green)'}; color: white; font-size: 12px;">${user.role}</span></td>
+                    <td style="padding: 12px;">
+                        <button class="btn" style="padding: 6px 12px; font-size: 12px;">Edit</button>
+                    </td>
+                `;
+                usersList.appendChild(row);
+            });
+            
+            // Update messages list
+            const messagesList = document.getElementById('admin-messages-list');
+            messagesList.innerHTML = '';
+            
+            messages.slice(-10).reverse().forEach(message => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="padding: 12px;">${message.data.name}</td>
+                    <td style="padding: 12px;">${message.type === 'contact' ? message.data.subject : 'Property Interest'}</td>
+                    <td style="padding: 12px;">${new Date(message.date).toLocaleDateString()}</td>
+                    <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${message.status === 'new' ? 'var(--red)' : 'var(--green)'}; color: white; font-size: 12px;">${message.status}</span></td>
+                    <td style="padding: 12px;">
+                        <button class="btn" style="padding: 6px 12px; font-size: 12px;">View</button>
+                    </td>
+                `;
+                messagesList.appendChild(row);
+            });
+        }
+        
+        // Admin Settings Form
+        document.getElementById('admin-settings-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Settings saved successfully!');
+        });
+        
+        // Show Toast Notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            
+            if (type === 'error') {
+                toast.style.backgroundColor = 'var(--red)';
+                toast.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else {
+                toast.style.backgroundColor = 'var(--green)';
+                toast.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Render initial content
+            renderFeaturedProperties();
+            renderExperiences();
+            renderProperties();
+            populateBookingProperties();
+            
+            // Show home page by default
+            showPage('home');
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+        
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', () => {
+            const searchTerm = document.querySelector('.search-bar input').value;
+            if (searchTerm.trim()) {
+                showPage('properties');
+                // In a real app, you would filter properties based on search term
+                showToast(`Searching for: ${searchTerm}`);
+            }
+        });
+        
+        // Guest login option
+        document.getElementById('guest-login').addEventListener('click', () => {
+            loginModal.classList.remove('show');
+            showToast('Continuing as guest. You can book properties without an account.');
+        });
+    </script>
+</body>
+</html>
