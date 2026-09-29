@@ -3318,6 +3318,18 @@
     
     <script>
         // Initialize Data
+        // ===== Persistence layer: guest submissions + admin edits survive reloads and sync across tabs =====
+        const STORE_KEYS = ['mj_bookings', 'mj_messages', 'mj_reviews', 'mj_payments', 'mj_users'];
+        function loadStore(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : fallback;
+            } catch (e) { return fallback; }
+        }
+        function saveStore(key, value) {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+        }
+        
         const properties = [
             {
                 id: 1,
@@ -3406,39 +3418,39 @@
             }
         ];
         
-        let bookings = [
-            { id: 1001, name: "Sarah K.", phone: "+256772123456", property: "Luxury Villa with Pool", propertyId: 1, checkin: "2026-10-05", checkout: "2026-10-08", guests: 2, status: "confirmed" },
-            { id: 1002, name: "David M.", phone: "+256783456789", property: "Modern Apartment in City Center", propertyId: 2, checkin: "2026-10-10", checkout: "2026-10-13", guests: 2, status: "pending" },
-            { id: 1003, name: "Aisha N.", phone: "+256701234890", property: "Beachfront Cottage", propertyId: 3, checkin: "2026-10-15", checkout: "2026-10-18", guests: 4, status: "confirmed" },
-            { id: 1004, name: "James T.", phone: "+256758765432", property: "Family House with Garden", propertyId: 4, checkin: "2026-10-20", checkout: "2026-10-24", guests: 6, status: "confirmed" },
-            { id: 1005, name: "Grace A.", phone: "+256702345678", property: "Luxury Villa with Pool", propertyId: 1, checkin: "2026-11-02", checkout: "2026-11-05", guests: 2, status: "cancelled" }
-        ];
-        let messages = [
+        let bookings = loadStore('mj_bookings', [
+            { ref: "BK-1001", id: 1001, name: "Sarah K.", phone: "+256772123456", property: "Luxury Villa with Pool", propertyId: 1, checkin: "2026-10-05", checkout: "2026-10-08", guests: 2, status: "confirmed" },
+            { ref: "BK-1002", id: 1002, name: "David M.", phone: "+256783456789", property: "Modern Apartment in City Center", propertyId: 2, checkin: "2026-10-10", checkout: "2026-10-13", guests: 2, status: "pending" },
+            { ref: "BK-1003", id: 1003, name: "Aisha N.", phone: "+256701234890", property: "Beachfront Cottage", propertyId: 3, checkin: "2026-10-15", checkout: "2026-10-18", guests: 4, status: "confirmed" },
+            { ref: "BK-1004", id: 1004, name: "James T.", phone: "+256758765432", property: "Family House with Garden", propertyId: 4, checkin: "2026-10-20", checkout: "2026-10-24", guests: 6, status: "confirmed" },
+            { ref: "BK-1005", id: 1005, name: "Grace A.", phone: "+256702345678", property: "Luxury Villa with Pool", propertyId: 1, checkin: "2026-11-02", checkout: "2026-11-05", guests: 2, status: "cancelled" }
+        ]);
+        let messages = loadStore('mj_messages', [
             { id: 1, data: { name: "Sarah K.", email: "sarah@example.com", subject: "Late check-out request", message: "Hi, is it possible to arrange a late check-out for our stay in October? Thanks!" }, type: "contact", date: "2026-09-24T09:30:00Z", status: "new" },
             { id: 2, data: { name: "David M.", email: "david@example.com", subject: "Airport pickup", message: "Do you offer airport pickup from Entebbe? And what would it cost?" }, type: "contact", date: "2026-09-25T14:12:00Z", status: "new" },
             { id: 3, data: { name: "James T.", email: "james@example.com", subject: "AC repair", message: "The AC in the family house was weak during our last stay. Can someone check it before our next visit?" }, type: "contact", date: "2026-09-26T08:05:00Z", status: "read" },
             { id: 4, data: { name: "Grace A.", email: "grace@example.com", subject: "Group booking", message: "We are 8 people looking at the villa in November. Is there a group discount?" }, type: "contact", date: "2026-09-27T16:40:00Z", status: "new" }
-        ];
-        let users = [
+        ]);
+        let users = loadStore('mj_users', [
             { id: 1, name: "Admin User", email: "admin@mjproperties.com", phone: "+256740286242", role: "admin" },
             { id: 2, name: "John Doe", email: "john@example.com", phone: "+256712345678", role: "guest" }
-        ];
+        ]);
         
         // ===== Sidebar feature data =====
-        let reviews = [
+        let reviews = loadStore('mj_reviews', [
             { id: 1, guest: "Sarah K.", property: "Luxury Villa with Pool", rating: 5, text: "Absolutely stunning villa, the pool was immaculate and views were breathtaking!", date: "2026-09-20", status: "published" },
             { id: 2, guest: "David M.", property: "Modern Apartment in City Center", rating: 4, text: "Great location, walkable to everything. Slightly noisy at night.", date: "2026-09-22", status: "pending" },
             { id: 3, guest: "Aisha N.", property: "Beachfront Cottage", rating: 5, text: "Perfect weekend getaway. Waking up to the sound of waves was magical.", date: "2026-09-24", status: "pending" },
             { id: 4, guest: "James T.", property: "Family House with Garden", rating: 2, text: "House was okay but check-in took over an hour and AC was weak.", date: "2026-09-25", status: "pending" }
-        ];
+        ]);
         
-        let payments = [
+        let payments = loadStore('mj_payments', [
             { id: "TXN-1042", guest: "Sarah K.", method: "MTN MoMo", amount: 750, status: "paid", date: "2026-09-20" },
             { id: "TXN-1043", guest: "David M.", method: "Airtel Money", amount: 360, status: "pending", date: "2026-09-22" },
             { id: "TXN-1044", guest: "Aisha N.", method: "Card · Visa ****4242", amount: 540, status: "paid", date: "2026-09-24" },
             { id: "TXN-1045", guest: "James T.", method: "MTN MoMo", amount: 600, status: "failed", date: "2026-09-25" },
             { id: "TXN-1046", guest: "Grace A.", method: "Card · Mastercard ****8210", amount: 250, status: "refunded", date: "2026-09-26" }
-        ];
+        ]);
         
         let activityLog = [
             { icon: "fa-sign-in-alt", text: "Admin signed in", time: new Date().toISOString() },
@@ -3911,6 +3923,7 @@
             
             interestFormContainer.style.display = 'none';
             interestForm.reset();
+            saveStore('mj_messages', messages);
             
             showToast('Interest submitted successfully! We will contact you soon.');
         });
@@ -3938,39 +3951,94 @@
             });
             
             document.getElementById('contact-form').reset();
+            saveStore('mj_messages', messages);
             showToast('Message sent successfully! We will respond within 24 hours.');
         });
         
-        // Booking Form Submission
+        // Booking Form Submission — guest flow that lands in the admin dashboard
+        function nextBookingRef() {
+            const maxSeed = 1005;
+            const maxExisting = bookings.reduce((m, b) => {
+                const n = parseInt(String(b.ref || '').replace('BK-', '')) || b.id || 0;
+                return Math.max(m, n);
+            }, maxSeed);
+            return 'BK-' + (maxExisting + 1);
+        }
+        
+        function nightsBetween(a, b) {
+            const d = (new Date(b) - new Date(a)) / 86400e3;
+            return Math.max(1, Math.round(d));
+        }
+        
         document.getElementById('booking-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
             const propertyId = document.getElementById('booking-property').value;
             const property = properties.find(p => p.id == propertyId);
             
+            if (!property) {
+                showToast('Please choose a property first', 'error');
+                return;
+            }
+            
+            const checkin = document.getElementById('booking-checkin').value;
+            const checkout = document.getElementById('booking-checkout').value;
+            
+            if (checkout <= checkin) {
+                showToast('Check-out must be after check-in', 'error');
+                return;
+            }
+            
+            const nights = nightsBetween(checkin, checkout);
+            const total = nights * property.price;
+            const ref = nextBookingRef();
+            
             const bookingData = {
-                id: bookings.length + 1,
+                id: parseInt(ref.replace('BK-', '')),
+                ref: ref,
                 property: property.title,
                 propertyId: propertyId,
                 name: document.getElementById('booking-name').value,
                 email: document.getElementById('booking-email').value,
                 phone: document.getElementById('booking-phone').value,
-                checkin: document.getElementById('booking-checkin').value,
-                checkout: document.getElementById('booking-checkout').value,
+                checkin: checkin,
+                checkout: checkout,
                 guests: document.getElementById('booking-guests').value,
                 message: document.getElementById('booking-message').value,
+                total: total,
                 status: 'pending',
                 date: new Date().toISOString()
             };
             
             bookings.push(bookingData);
+            saveStore('mj_bookings', bookings);
             document.getElementById('booking-form').reset();
             
+            // Guest-facing confirmation modal with their reference + price estimate
+            openDetail({
+                title: 'Booking Request Received! 🎉',
+                subtitle: `Reference: ${ref} — keep this to follow up on your request`,
+                bodyHtml:
+                    row('Property', property.title) +
+                    row('Location', property.location) +
+                    row('Guest', bookingData.name) +
+                    row('Dates', `${checkin} → ${checkout}`) +
+                    row('Nights', nights) +
+                    row('Guests', bookingData.guests) +
+                    `<div style="margin-top: 14px; padding: 14px 16px; background: var(--light-gray); border-radius: 10px; display: flex; justify-content: space-between; align-items: center;"><span style="color: var(--dark-gray); font-size: 13px;">Estimated total (${nights} × $${property.price}/night)</span><strong style="font-size: 20px; color: var(--dark-gold);">$${total.toLocaleString()}</strong></div>
+                     <p style="font-size: 13px; color: var(--dark-gray); margin-top: 14px;">Our team will confirm availability and contact you shortly. Payment is arranged after confirmation.</p>`,
+                actions: [
+                    { label: 'Done', icon: 'fa-check', primary: true, onClick: closeDetail }
+                ]
+            });
+            
+            logActivity('fa-calendar-plus', `New booking ${ref} from ${bookingData.name} (${property.title})`);
             showToast('Booking request submitted! We will confirm availability and contact you.');
             
             // Update admin dashboard if admin is logged in
             if (adminPortal.classList.contains('active')) {
                 updateAdminDashboard();
+                updateNavBadges();
             }
         });
         
@@ -4011,12 +4079,16 @@
             const recentBookings = bookings.slice(-5).reverse();
             recentBookings.forEach(booking => {
                 const row = document.createElement('tr');
+                row.style.cursor = 'pointer';
+                row.title = 'Click to view booking';
+                row.dataset.bookingId = booking.id;
                 row.innerHTML = `
                     <td style="padding: 12px;">${booking.name}</td>
                     <td style="padding: 12px;">${booking.property}</td>
                     <td style="padding: 12px;">${booking.checkin} to ${booking.checkout}</td>
                     <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${booking.status === 'confirmed' ? 'var(--green)' : booking.status === 'pending' ? 'var(--gold)' : 'var(--gray)'}; color: white; font-size: 12px;">${booking.status}</span></td>
                 `;
+                row.addEventListener('click', () => viewBooking(booking.id));
                 recentBookingsContainer.appendChild(row);
             });
             
@@ -4028,6 +4100,9 @@
                 const recentProps = properties.slice(-5).reverse();
                 recentProps.forEach(property => {
                     const row = document.createElement('tr');
+                    row.style.cursor = 'pointer';
+                    row.title = 'Click to view property';
+                    row.dataset.propertyId = property.id;
                     const dateAdded = property.dateAdded ? new Date(property.dateAdded).toLocaleDateString() : 'N/A';
                     row.innerHTML = `
                         <td style="padding: 12px;">${property.title}</td>
@@ -4035,6 +4110,7 @@
                         <td style="padding: 12px;">$${property.price}/night</td>
                         <td style="padding: 12px;">${dateAdded}</td>
                     `;
+                    row.addEventListener('click', () => viewProperty(property.id));
                     recentPropertiesContainer.appendChild(row);
                 });
             }
@@ -4051,6 +4127,7 @@
                     <td style="padding: 12px;">$${property.price}/night</td>
                     <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: var(--green); color: white; font-size: 12px;">Active</span></td>
                     <td style="padding: 12px;">
+                        <button class="btn view-property-btn" data-id="${property.id}" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">View</button>
                         <button class="btn edit-property-btn" data-index="${index}" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">Edit</button>
                         <button class="btn btn-outline delete-property-btn" data-index="${index}" style="padding: 6px 12px; font-size: 12px;">Delete</button>
                     </td>
@@ -4187,6 +4264,7 @@
             const review = reviews.find(r => r.id === id);
             if (!review) return;
             review.status = status;
+            saveStore('mj_reviews', reviews);
             showToast(`Review ${status === 'published' ? 'published' : 'hidden'} successfully!`);
             logActivity('fa-star', `Review from ${review.guest} ${status}`);
             renderReviews();
@@ -4226,8 +4304,9 @@
                     <td style="padding: 10px; font-weight: 600;">$${p.amount.toLocaleString()}</td>
                     <td style="padding: 10px;"><span class="status-badge ${p.status}">${p.status}</span></td>
                     <td style="padding: 10px;">
+                        <button class="mini-btn outline view-payment-btn" data-id="${p.id}" style="margin-right: 5px;">View</button>
                         ${p.status === 'pending' ? `<button class="mini-btn" onclick="markPaid('${p.id}')">Mark paid</button>` :
-                          p.status === 'failed' ? `<button class="mini-btn outline" onclick="retryPayment('${p.id}')">Retry</button>` : '—'}
+                          p.status === 'failed' ? `<button class="mini-btn outline" onclick="retryPayment('${p.id}')">Retry</button>` : ''}
                     </td>
                 </tr>
             `).join('');
@@ -4237,6 +4316,7 @@
             const txn = payments.find(p => p.id === id);
             if (!txn) return;
             txn.status = 'paid';
+            saveStore('mj_payments', payments);
             showToast(`Payment ${id} marked as paid!`);
             logActivity('fa-credit-card', `Payment ${id} ($${txn.amount}) marked as paid`);
             renderPayments();
@@ -4246,6 +4326,7 @@
             const txn = payments.find(p => p.id === id);
             if (!txn) return;
             txn.status = 'pending';
+            saveStore('mj_payments', payments);
             showToast(`Retrying payment ${id}...`);
             logActivity('fa-redo', `Payment ${id} retry initiated`);
             renderPayments();
@@ -4567,6 +4648,7 @@
                         b.phone = document.getElementById('ub-phone').value;
                         b.checkin = document.getElementById('ub-checkin').value;
                         b.checkout = document.getElementById('ub-checkout').value;
+                        saveStore('mj_bookings', bookings);
                         setBookingStatus(b.id, document.getElementById('ub-status').value);
                     } },
                     { label: 'Cancel', onClick: closeDetail }
@@ -4578,7 +4660,9 @@
             const b = bookings.find(x => x.id == id);
             if (!b) return;
             b.status = status;
-            showToast(`Booking #${id} marked as ${status}`);
+            saveStore('mj_bookings', bookings);
+            showToast(`Booking ${b.ref || '#' + id} marked as ${status}`);
+            logActivity('fa-calendar-check', `Booking ${b.ref || '#' + id} marked as ${status}`);
             closeDetail();
             updateAdminDashboard();
             updateNavBadges();
@@ -4601,6 +4685,7 @@
                         u.name = document.getElementById('eu-name').value;
                         u.email = document.getElementById('eu-email').value;
                         u.phone = document.getElementById('eu-phone').value;
+                        saveStore('mj_users', users);
                         updateAdminCard(u);
                         closeDetail();
                         updateAdminDashboard();
@@ -4630,6 +4715,7 @@
             const wasNew = m.status === 'new';
             if (wasNew) {
                 m.status = 'read';
+                saveStore('mj_messages', messages);
                 updateNavBadges();
             }
             openDetail({
@@ -4649,6 +4735,51 @@
             if (wasNew) showToast('Message marked as read');
         };
         
+        // ===== Properties: view details =====
+        window.viewProperty = function(id) {
+            const p = properties.find(x => x.id == id);
+            if (!p) return;
+            const propBookings = bookings.filter(b => b.propertyId == p.id && b.status === 'confirmed').length;
+            openDetail({
+                title: p.title,
+                subtitle: `${p.location} · ${p.rating || '4.5'} ★`,
+                bodyHtml:
+                    (p.image ? `<img src="${p.image}" alt="${p.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 14px;">` : '') +
+                    row('Price', `$${p.price}/night`) +
+                    row('Type', p.type || '—') +
+                    row('Bedrooms', p.bedrooms || '—') +
+                    row('Bathrooms', p.bathrooms || '—') +
+                    row('Max guests', p.guests || '—') +
+                    row('Confirmed bookings', propBookings) +
+                    `<div style="margin-top: 14px;"><div style="font-size: 12.5px; color: var(--dark-gray); margin-bottom: 5px;">Description</div><div style="background: var(--light-gray); padding: 12px 14px; border-radius: 8px; font-size: 13.5px;">${p.description || 'No description yet.'}</div></div>`,
+                actions: [
+                    { label: 'Edit property', icon: 'fa-pen', primary: true, onClick: () => { closeDetail(); document.querySelector('.admin-nav-link[data-admin-section="properties-admin"]').click(); setTimeout(() => { const btn = document.querySelector(`.edit-property-btn[data-index="${properties.indexOf(p)}"]`); if (btn) btn.click(); }, 60); } },
+                    { label: 'View bookings', icon: 'fa-calendar', onClick: () => { closeDetail(); document.querySelector('.admin-nav-link[data-admin-section="bookings"]').click(); } },
+                    { label: 'Close', onClick: closeDetail }
+                ]
+            });
+        };
+        
+        // ===== Payments: view transaction details =====
+        window.viewPayment = function(id) {
+            const p = payments.find(x => x.id === id);
+            if (!p) return;
+            openDetail({
+                title: `Transaction ${p.id}`,
+                subtitle: p.date ? new Date(p.date).toLocaleDateString() : '',
+                bodyHtml:
+                    row('Guest', p.guest) +
+                    row('Method', p.method) +
+                    row('Amount', `$${p.amount.toLocaleString()}`) +
+                    row('Status', statusChip(p.status)),
+                actions: [
+                    p.status === 'pending' ? { label: 'Mark as paid', icon: 'fa-check', primary: true, onClick: () => { closeDetail(); markPaid(p.id); } } : null,
+                    p.status === 'failed' ? { label: 'Retry payment', icon: 'fa-redo', primary: true, onClick: () => { closeDetail(); retryPayment(p.id); } } : null,
+                    { label: 'Close', onClick: closeDetail }
+                ].filter(Boolean)
+            });
+        };
+        
         // Delegated handlers for dynamically rendered table buttons
         document.addEventListener('click', (e) => {
             const t = e.target.closest('button');
@@ -4657,12 +4788,33 @@
             else if (t.classList.contains('update-booking-btn')) updateBooking(t.dataset.id);
             else if (t.classList.contains('edit-user-btn')) editUser(t.dataset.id);
             else if (t.classList.contains('view-message-btn')) viewMessage(t.dataset.id);
+            else if (t.classList.contains('view-property-btn')) viewProperty(t.dataset.id);
+            else if (t.classList.contains('view-payment-btn')) viewPayment(t.dataset.id);
         });
         
         // Make the sidebar admin profile card open the admin profile editor
         document.querySelector('.sidebar-user').addEventListener('click', () => {
             const admin = users.find(u => u.role === 'admin');
             if (admin) editUser(admin.id);
+        });
+        
+        // ===== Cross-tab sync: when a guest books in another tab, refresh the open admin view =====
+        window.addEventListener('storage', (e) => {
+            if (!STORE_KEYS.includes(e.key)) return;
+            try {
+                if (e.key === 'mj_bookings') bookings = JSON.parse(e.newValue) || bookings;
+                if (e.key === 'mj_messages') messages = JSON.parse(e.newValue) || messages;
+                if (e.key === 'mj_reviews') reviews = JSON.parse(e.newValue) || reviews;
+                if (e.key === 'mj_payments') payments = JSON.parse(e.newValue) || payments;
+                if (e.key === 'mj_users') users = JSON.parse(e.newValue) || users;
+            } catch (err) { return; }
+            if (adminPortal.classList.contains('active')) {
+                updateAdminDashboard();
+                renderReviews();
+                renderPayments();
+                updateNavBadges();
+                showToast('New guest activity received — dashboard refreshed');
+            }
         });
         
         renderReviews();
