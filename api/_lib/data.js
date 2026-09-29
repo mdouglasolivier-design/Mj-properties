@@ -56,10 +56,9 @@ function seedDefaults() {
 async function readData() {
   if (cache) return cache;
   try {
-    const blob = await get(DATA_KEY);
-    // Cache-bust: public blob URLs are CDN-cached; force fresh fetch
-    const url = (blob.downloadUrl || blob.url) + '?t=' + Date.now();
-    const res = await fetch(url, { cache: 'no-store' });
+    // Read through the Blob API (not the public CDN URL) — authenticated and never stale.
+    const blob = await get(DATA_KEY, { cacheControlMaxAge: 0 });
+    const res = await fetch(blob.downloadUrl || blob.url, { cache: 'no-store' });
     const parsed = JSON.parse(await res.text());
     cache = { ...seedDefaults(), ...parsed };
   } catch (e) {
