@@ -57,7 +57,9 @@ async function readData() {
   if (cache) return cache;
   try {
     const blob = await get(DATA_KEY);
-    const res = await fetch(blob.downloadUrl || blob.url);
+    // Cache-bust: public blob URLs are CDN-cached; force fresh fetch
+    const url = (blob.downloadUrl || blob.url) + '?t=' + Date.now();
+    const res = await fetch(url, { cache: 'no-store' });
     const parsed = JSON.parse(await res.text());
     cache = { ...seedDefaults(), ...parsed };
   } catch (e) {
@@ -73,7 +75,8 @@ async function writeData(data) {
   await put(DATA_KEY, JSON.stringify(data), {
     access: 'public',
     addRandomSuffix: false,
-    allowOverwrite: true
+    allowOverwrite: true,
+    cacheControlMaxAge: 0 // never serve stale data from the CDN
   });
 }
 
