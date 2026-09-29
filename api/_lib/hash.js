@@ -1,9 +1,9 @@
 /**
- * Password hash generator.
+ * Password hash generator (CommonJS).
  * Usage:  node api/_lib/hash.js "your-new-password"
  * Copy the output into the MJ_ADMIN_PASSWORD_HASH environment variable in Vercel.
  */
-import crypto from 'crypto';
+const crypto = require('crypto');
 
 const password = process.argv[2];
 if (!password) {

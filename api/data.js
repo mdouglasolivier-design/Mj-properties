@@ -1,15 +1,15 @@
 /**
- * /api/data — one-shot admin dataset (bookings, messages, reviews, payments, users, settings).
+ * /api/data — one-shot admin dataset (bookings, messages, reviews, payments, users, settings). CommonJS.
  *
  * GET    (admin) → full dataset
  * PATCH  (admin) — update any collection wholesale: body like { reviews: [...], payments: [...] }
  */
-import { readData, writeData, cors, parseBody } from './_lib/data.js';
-import { requireAdmin } from './_lib/auth.js';
+const { readData, writeData, cors, parseBody } = require('./_lib/data.js');
+const { requireAdmin } = require('./_lib/auth.js');
 
 const COLLECTIONS = ['bookings', 'messages', 'reviews', 'payments', 'users', 'settings'];
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (cors(req, res)) return;
 
   const session = requireAdmin(req, res);
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   if (req.method === 'PATCH') {
     const body = parseBody(req);
     const data = await readData();
-    let changed = [];
+    const changed = [];
     for (const c of COLLECTIONS) {
       if (Array.isArray(body[c])) {
         data[c] = body[c];
@@ -42,3 +42,5 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+
+module.exports = handler;

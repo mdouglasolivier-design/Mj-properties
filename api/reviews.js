@@ -1,15 +1,15 @@
 /**
- * /api/reviews
+ * /api/reviews — CommonJS.
  *
  * POST { guest, property, rating, text }   (public — guest review submission)
  * GET                                      (admin) → { reviews: [...] }
  * PATCH ?id=2 { status }                   (admin) — publish/hide
  * DELETE ?id=2                             (admin)
  */
-import { readData, writeData, cors, parseBody } from './_lib/data.js';
-import { requireAdmin } from './_lib/auth.js';
+const { readData, writeData, cors, parseBody } = require('./_lib/data.js');
+const { requireAdmin } = require('./_lib/auth.js');
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (cors(req, res)) return;
   const data = await readData();
 
@@ -71,3 +71,5 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+
+module.exports = handler;

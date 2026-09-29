@@ -1,14 +1,14 @@
 /**
- * /api/auth — server-side admin login.
+ * /api/auth — server-side admin login. CommonJS.
  *
- * POST { username, password }  → { token, user }   (sets httpOnly cookie too)
- * GET                          → { user }          (validates Bearer token)
+ * POST { username, password }  → { token }          (sets httpOnly cookie too)
+ * GET                          → { user }           (validates Bearer token)
  * DELETE                       → 204 (logout)
  */
-import { readData, writeData, cors, parseBody } from '../_lib/data.js';
-import { createSession, verifySession, verifyPassword, getSecret, getAdminCredentials, requireAdmin } from '../_lib/auth.js';
+const { readData, cors, parseBody } = require('./_lib/data.js');
+const { createSession, verifySession, verifyPassword, getSecret, getAdminCredentials, requireAdmin } = require('./_lib/auth.js');
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (cors(req, res)) return;
 
   // Validate current session
@@ -44,3 +44,5 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+
+module.exports = handler;

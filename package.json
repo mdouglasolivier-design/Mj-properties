@@ -2,7 +2,6 @@
   "name": "mj-properties",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "dependencies": {
     "@vercel/blob": "^2.8.0",
     "nodemailer": "^7.0.13"

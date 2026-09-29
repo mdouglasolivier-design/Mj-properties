@@ -1,5 +1,5 @@
 /**
- * /api/bookings
+ * /api/bookings — CommonJS.
  *
  * GET                       (admin) → { bookings: [...] }
  * POST   { name, email, phone, property, checkin, checkout, guests, message, total }
@@ -8,10 +8,10 @@
  *                           (admin) → { ok, booking }
  * DELETE ?ref=BK-1006       (admin) → { ok }
  */
-import { readData, writeData, cors, parseBody } from './_lib/data.js';
-import { requireAdmin } from './_lib/auth.js';
+const { readData, writeData, cors, parseBody } = require('./_lib/data.js');
+const { requireAdmin } = require('./_lib/auth.js');
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (cors(req, res)) return;
   const data = await readData();
 
@@ -95,3 +95,5 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+
+module.exports = handler;

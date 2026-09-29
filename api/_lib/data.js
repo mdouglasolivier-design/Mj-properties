@@ -1,9 +1,10 @@
 /**
  * Shared data layer for all MJ Properties API routes.
  * Stores the whole dataset as one JSON document in Vercel Blob
- * (private access — only the server can read it).
+ * (private access — only the server can read it). CommonJS so Vercel
+ * bundles it correctly with each serverless function.
  */
-import { put, get } from '@vercel/blob';
+const { put, get } = require('@vercel/blob');
 
 const DATA_KEY = 'mj-data-v1';
 
@@ -52,7 +53,7 @@ function seedDefaults() {
   };
 }
 
-export async function readData() {
+async function readData() {
   if (cache) return cache;
   try {
     const blob = await get(DATA_KEY);
@@ -62,12 +63,12 @@ export async function readData() {
   } catch (e) {
     // First run (or unreadable) — seed and persist defaults.
     cache = seedDefaults();
-    try { await writeData(cache); } catch (e2) { /* read-only env; keep in-memory */ }
+    try { await writeData(cache); } catch (e2) { /* keep in-memory */ }
   }
   return cache;
 }
 
-export async function writeData(data) {
+async function writeData(data) {
   cache = data;
   await put(DATA_KEY, JSON.stringify(data), {
     access: 'private',
@@ -76,14 +77,14 @@ export async function writeData(data) {
   });
 }
 
-export function parseBody(req) {
+function parseBody(req) {
   if (typeof req.body === 'string') {
     try { return JSON.parse(req.body || '{}'); } catch { return {}; }
   }
   return req.body || {};
 }
 
-export function cors(req, res) {
+function cors(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -93,3 +94,5 @@ export function cors(req, res) {
   }
   return false;
 }
+
+module.exports = { readData, writeData, parseBody, cors, seedDefaults };

@@ -1,15 +1,15 @@
 /**
- * /api/payments — admin only.
+ * /api/payments — admin only. CommonJS.
  *
  * GET                → { payments: [...] }
  * PATCH ?id=TXN-1043 { status }  — one of pending|paid|failed|refunded
  */
-import { readData, writeData, cors, parseBody } from './_lib/data.js';
-import { requireAdmin } from './_lib/auth.js';
+const { readData, writeData, cors, parseBody } = require('./_lib/data.js');
+const { requireAdmin } = require('./_lib/auth.js');
 
 const STATUSES = ['pending', 'paid', 'failed', 'refunded'];
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (cors(req, res)) return;
 
   const session = requireAdmin(req, res);
@@ -37,3 +37,5 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+
+module.exports = handler;

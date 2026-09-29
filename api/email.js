@@ -1,17 +1,17 @@
 /**
- * /api/email — admin sends an email reply to a client message.
+ * /api/email — admin sends an email reply to a client message. CommonJS.
  *
- * POST { to, subject, body, inReplyToId? }   (admin only)
+ * POST { to, subject, text?, html?, messageId? }   (admin only)
  *
  * Uses nodemailer with SMTP credentials from env:
  *   SMTP_HOST (e.g. smtp.gmail.com), SMTP_PORT (465),
  *   SMTP_USER, SMTP_PASS (app password), MAIL_FROM (optional; defaults to SMTP_USER)
  */
-import nodemailer from 'nodemailer';
-import { readData, writeData, cors, parseBody } from './_lib/data.js';
-import { requireAdmin } from './_lib/auth.js';
+const nodemailer = require('nodemailer');
+const { readData, writeData, cors, parseBody } = require('./_lib/data.js');
+const { requireAdmin } = require('./_lib/auth.js');
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (cors(req, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -58,11 +58,11 @@ export default async function handler(req, res) {
     if (messageId) {
       const data = await readData();
       const original = data.messages.find(m => m.id === parseInt(messageId, 10));
-      if (original && original.status === 'new') {
-        original.status = 'read';
+      if (original) {
+        if (original.status === 'new') original.status = 'read';
+        original.repliedAt = new Date().toISOString();
+        await writeData(data);
       }
-      original.repliedAt = new Date().toISOString();
-      await writeData(data);
     }
 
     return res.status(200).json({ ok: true, messageId: info.messageId, accepted: info.accepted });
@@ -70,3 +70,5 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: 'Email send failed: ' + (err && err.message) });
   }
 }
+
+module.exports = handler;
