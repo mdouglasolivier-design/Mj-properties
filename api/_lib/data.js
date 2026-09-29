@@ -71,7 +71,7 @@ async function readData() {
 async function writeData(data) {
   cache = data;
   await put(DATA_KEY, JSON.stringify(data), {
-    access: 'private',
+    access: 'public',
     addRandomSuffix: false,
     allowOverwrite: true
   });
