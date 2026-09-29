@@ -54,7 +54,7 @@ function seedDefaults() {
 }
 
 async function readData() {
-  if (cache) return cache;
+  // no warm cache: correctness over micro-optimization (data is tiny, ~4KB)
   try {
     // Read through the Blob API (not the public CDN URL) — authenticated and never stale.
     const blob = await get(DATA_KEY, { cacheControlMaxAge: 0 });
