@@ -54,19 +54,26 @@ function seedDefaults() {
 }
 
 async function readData() {
-  // no warm cache: correctness over micro-optimization (data is tiny, ~4KB)
+  // Read through the Blob SDK with useCache:false — authenticated, direct from origin,
+  // never served from the CDN edge cache (which was serving stale data).
   try {
-    // Read through the Blob API (not the public CDN URL) — authenticated and never stale.
-    const blob = await get(DATA_KEY, { cacheControlMaxAge: 0 });
-    const res = await fetch(blob.downloadUrl || blob.url, { cache: 'no-store' });
-    const parsed = JSON.parse(await res.text());
+    const blob = await get(DATA_KEY, { access: 'public', useCache: false });
+    const reader = blob.stream.getReader();
+    const chunks = [];
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value);
+    }
+    const text = Buffer.concat(chunks).toString('utf8');
+    const parsed = JSON.parse(text);
     cache = { ...seedDefaults(), ...parsed };
+    return cache;
   } catch (e) {
     // First run (or unreadable) — seed and persist defaults.
-    cache = seedDefaults();
-    try { await writeData(cache); } catch (e2) { /* keep in-memory */ }
+    cache = cache || seedDefaults();
+    return cache;
   }
-  return cache;
 }
 
 async function writeData(data) {
