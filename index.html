@@ -702,7 +702,8 @@
         .admin-sidebar-panel {
             width: 260px;
             flex-shrink: 0;
-            background: linear-gradient(180deg, var(--black) 0%, #262626 100%);
+            background: var(--white);
+            border: 1px solid var(--gray);
             border-radius: 14px;
             padding: 22px 16px;
             display: flex;
@@ -720,7 +721,7 @@
         }
         
         .admin-sidebar-panel::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--gray);
             border-radius: 4px;
         }
         
@@ -729,7 +730,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 8px 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid var(--gray);
             margin-bottom: 14px;
         }
         
@@ -739,13 +740,13 @@
             font-size: 13px;
             letter-spacing: 1.2px;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--dark-gray);
         }
         
         .sidebar-collapse-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--white);
+            background: var(--light-gray);
+            border: 1px solid var(--gray);
+            color: var(--black);
             width: 30px;
             height: 30px;
             border-radius: 8px;
@@ -757,8 +758,7 @@
         }
         
         .sidebar-collapse-btn:hover {
-            background: var(--gold);
-            border-color: var(--gold);
+            background: var(--gray);
         }
         
         .sidebar-section-title {
@@ -766,7 +766,7 @@
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--dark-gray);
             padding: 12px 12px 6px;
         }
         
@@ -774,13 +774,13 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            color: rgba(255, 255, 255, 0.75);
+            color: var(--black);
             text-decoration: none;
             font-weight: 500;
             font-size: 14.5px;
             padding: 11px 12px;
             border-radius: 10px;
-            transition: background 0.2s, color 0.2s, transform 0.15s;
+            transition: background 0.2s, color 0.2s;
             position: relative;
         }
         
@@ -791,15 +791,12 @@
         }
         
         .admin-sidebar-panel a.admin-nav-link:hover {
-            background: rgba(255, 255, 255, 0.07);
-            color: var(--white);
-            transform: translateX(3px);
+            background: var(--light-gray);
         }
         
         .admin-sidebar-panel a.admin-nav-link.active {
-            background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+            background: var(--black);
             color: var(--white);
-            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
         }
         
         .sidebar-badge {
@@ -819,12 +816,12 @@
         
         .admin-sidebar-panel a.admin-nav-link.active .sidebar-badge {
             background: var(--white);
-            color: var(--gold);
+            color: var(--black);
         }
         
         .sidebar-divider {
             height: 1px;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--gray);
             margin: 14px 8px;
         }
         
@@ -834,8 +831,8 @@
             align-items: center;
             gap: 12px;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--light-gray);
+            border: 1px solid var(--gray);
             border-radius: 12px;
         }
         
@@ -843,7 +840,7 @@
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+            background: var(--black);
             color: var(--white);
             display: flex;
             align-items: center;
@@ -859,7 +856,7 @@
         
         .sidebar-user-info strong {
             display: block;
-            color: var(--white);
+            color: var(--black);
             font-size: 13.5px;
             white-space: nowrap;
             overflow: hidden;
@@ -867,7 +864,7 @@
         }
         
         .sidebar-user-info small {
-            color: var(--gold);
+            color: var(--dark-gray);
             font-size: 11.5px;
         }
         
@@ -1172,9 +1169,9 @@
             display: none;
             align-items: center;
             gap: 10px;
-            background: var(--black);
-            color: var(--white);
-            border: none;
+            background: var(--white);
+            color: var(--black);
+            border: 1px solid var(--gray);
             padding: 12px 18px;
             border-radius: 10px;
             font-family: 'Poppins', sans-serif;
@@ -1586,7 +1583,7 @@
                 border-radius: 0;
                 z-index: 1000;
                 transition: left 0.3s ease;
-                box-shadow: 8px 0 30px rgba(0, 0, 0, 0.35);
+                box-shadow: 8px 0 30px rgba(0, 0, 0, 0.15);
             }
             
             .admin-sidebar-panel.open {
@@ -3398,8 +3395,19 @@
             }
         ];
         
-        let bookings = [];
-        let messages = [];
+        let bookings = [
+            { id: 1001, name: "Sarah K.", phone: "+256772123456", property: "Luxury Villa with Pool", propertyId: 1, checkin: "2026-10-05", checkout: "2026-10-08", guests: 2, status: "confirmed" },
+            { id: 1002, name: "David M.", phone: "+256783456789", property: "Modern Apartment in City Center", propertyId: 2, checkin: "2026-10-10", checkout: "2026-10-13", guests: 2, status: "pending" },
+            { id: 1003, name: "Aisha N.", phone: "+256701234890", property: "Beachfront Cottage", propertyId: 3, checkin: "2026-10-15", checkout: "2026-10-18", guests: 4, status: "confirmed" },
+            { id: 1004, name: "James T.", phone: "+256758765432", property: "Family House with Garden", propertyId: 4, checkin: "2026-10-20", checkout: "2026-10-24", guests: 6, status: "confirmed" },
+            { id: 1005, name: "Grace A.", phone: "+256702345678", property: "Luxury Villa with Pool", propertyId: 1, checkin: "2026-11-02", checkout: "2026-11-05", guests: 2, status: "cancelled" }
+        ];
+        let messages = [
+            { id: 1, data: { name: "Sarah K.", email: "sarah@example.com", subject: "Late check-out request", message: "Hi, is it possible to arrange a late check-out for our stay in October? Thanks!" }, type: "contact", date: "2026-09-24T09:30:00Z", status: "new" },
+            { id: 2, data: { name: "David M.", email: "david@example.com", subject: "Airport pickup", message: "Do you offer airport pickup from Entebbe? And what would it cost?" }, type: "contact", date: "2026-09-25T14:12:00Z", status: "new" },
+            { id: 3, data: { name: "James T.", email: "james@example.com", subject: "AC repair", message: "The AC in the family house was weak during our last stay. Can someone check it before our next visit?" }, type: "contact", date: "2026-09-26T08:05:00Z", status: "read" },
+            { id: 4, data: { name: "Grace A.", email: "grace@example.com", subject: "Group booking", message: "We are 8 people looking at the villa in November. Is there a group discount?" }, type: "contact", date: "2026-09-27T16:40:00Z", status: "new" }
+        ];
         let users = [
             { id: 1, name: "Admin User", email: "admin@mjproperties.com", phone: "+256740286242", role: "admin" },
             { id: 2, name: "John Doe", email: "john@example.com", phone: "+256712345678", role: "guest" }
@@ -3525,7 +3533,7 @@
                 
                 // Update admin dashboard + sidebar features
                 updateAdminDashboard();
-                if (document.getElementById('analytics').classList.contains('active')) drawChart();
+                if (document.getElementById('analytics').classList.contains('active')) drawChartSafe();
             } else {
                 showToast('Invalid credentials. Try admin / password123', 'error');
             }
@@ -4271,6 +4279,7 @@
         
         function drawChart() {
             const wrap = chartCanvas.parentElement;
+            if (!wrap.clientWidth) return; // section hidden; retry will handle it
             const dpr = window.devicePixelRatio || 1;
             const w = wrap.clientWidth;
             const h = wrap.clientHeight;
@@ -4464,11 +4473,20 @@
         renderActivityLog();
         updateNavBadges();
         
-        // Draw the chart when the Analytics section is opened (it has size only when visible)
+        // Draw the chart when the Analytics section is opened (it has size only when visible).
+        // drawChartSafe retries across frames in case layout hasn't settled yet.
+        function drawChartSafe(attempts = 10) {
+            if (chartCanvas.parentElement.clientWidth > 0) {
+                drawChart();
+            } else if (attempts > 0) {
+                requestAnimationFrame(() => drawChartSafe(attempts - 1));
+            }
+        }
+        
         document.querySelectorAll('.admin-nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 if (link.dataset.adminSection === 'analytics') {
-                    requestAnimationFrame(drawChart);
+                    requestAnimationFrame(drawChartSafe);
                 }
                 // Close mobile drawer after picking a section
                 closeMobileSidebar();
@@ -4476,7 +4494,7 @@
         });
         
         window.addEventListener('resize', () => {
-            if (document.getElementById('analytics').classList.contains('active')) drawChart();
+            if (document.getElementById('analytics').classList.contains('active')) drawChartSafe();
         });
         
         // Admin Settings Form
