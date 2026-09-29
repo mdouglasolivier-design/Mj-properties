@@ -3539,15 +3539,62 @@
             adminLoginModal.classList.remove('show');
         });
         
-        // Admin Login Form Submission
-        adminLoginForm.addEventListener('submit', (e) => {
+        // ===== Backend API client =====
+        const API = {
+          token: sessionStorage.getItem('mj_token') || null,
+          async req(path, opts = {}) {
+            const headers = { 'Content-Type': 'application/json' };
+            if (this.token) headers.Authorization = 'Bearer ' + this.token;
+            const res = await fetch('/api' + path, { ...opts, headers });
+            let body = null;
+            try { body = await res.json(); } catch {}
+            if (!res.ok) throw Object.assign(new Error((body && body.error) || 'Request failed'), { status: res.status });
+            return body;
+          },
+          login(u, p) { return this.req('/auth', { method: 'POST', body: JSON.stringify({ username: u, password: p }) }); },
+          logout() { return this.req('/auth', { method: 'DELETE' }); },
+          async data() {
+            const d = await this.req('/data');
+            return d;
+          },
+          saveCollection(name, items) { return this.req('/data', { method: 'PATCH', body: JSON.stringify({ [name]: items }) }); },
+          patchBooking(ref, patch) { return this.req('/bookings?ref=' + encodeURIComponent(ref), { method: 'PATCH', body: JSON.stringify(patch) }); },
+          patchReview(id, patch) { return this.req('/reviews?id=' + id, { method: 'PATCH', body: JSON.stringify(patch) }); },
+          patchPayment(id, patch) { return this.req('/payments?id=' + encodeURIComponent(id), { method: 'PATCH', body: JSON.stringify(patch) }); },
+          patchMessage(id, patch) { return this.req('/messages?id=' + id, { method: 'PATCH', body: JSON.stringify(patch) }); },
+          patchUser(id, patch) { return this.req('/users?id=' + id, { method: 'PATCH', body: JSON.stringify(patch) }); },
+          saveSettings(settings) { return this.req('/users', { method: 'PATCH', body: JSON.stringify({ settings }) }); },
+          sendEmail(payload) { return this.req('/email', { method: 'POST', body: JSON.stringify(payload) }); }
+        };
+        
+        // Pull the shared dataset from the backend into local state (with local fallback)
+        async function syncFromServer() {
+          try {
+            const d = await API.data();
+            bookings = d.bookings || bookings;
+            messages = d.messages || messages;
+            reviews = d.reviews || reviews;
+            payments = d.payments || payments;
+            users = d.users || users;
+            try { localStorage.setItem('mj_bookings', JSON.stringify(bookings)); } catch {}
+            return true;
+          } catch (e) {
+            return false; // offline / logged out — keep local data
+          }
+        }
+        
+        // Admin Login Form Submission — server-side authentication
+        adminLoginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = document.getElementById('admin-username').value;
             const password = document.getElementById('admin-password').value;
             
-            // Simple authentication (in real app, this would be server-side)
-            
-            if (username === 'admin' && password === 'password123') {
+            try {
+                const res = await API.login(username, password);
+                API.token = res.token;
+                sessionStorage.setItem('mj_token', API.token);
+                
+                await syncFromServer();
                 showToast('Admin login successful!');
                 adminLoginModal.classList.remove('show');
                 
@@ -3557,15 +3604,21 @@
                 
                 // Update admin dashboard + sidebar features
                 updateAdminDashboard();
+                renderReviews();
+                renderPayments();
+                updateNavBadges();
                 if (document.getElementById('analytics').classList.contains('active')) drawChartSafe();
-            } else {
-                showToast('Invalid credentials. Try admin / password123', 'error');
+            } catch (err) {
+                showToast(err.message || 'Login failed', 'error');
             }
         });
         
-        // Logout from Admin
-        logoutAdmin.addEventListener('click', (e) => {
+        // Logout from Admin — server-side session teardown
+        logoutAdmin.addEventListener('click', async (e) => {
             e.preventDefault();
+            try { await API.logout(); } catch {}
+            API.token = null;
+            sessionStorage.removeItem('mj_token');
             adminPortal.classList.remove('active');
             showPage('home');
             showToast('Logged out successfully');
@@ -3947,6 +4000,14 @@
             
             document.getElementById('contact-form').reset();
             saveStore('mj_messages', messages);
+            
+            // Push to the backend so it reaches the admin dashboard on every device
+            fetch('/api/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(contactData)
+            }).catch(() => { /* offline: message still stored locally */ });
+            
             showToast('Message sent successfully! We will respond within 24 hours.');
         });
         
@@ -4009,10 +4070,38 @@
             saveStore('mj_bookings', bookings);
             document.getElementById('booking-form').reset();
             
+            // Push to the backend so it lands in the admin dashboard on every device
+            fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: bookingData.name,
+                    email: bookingData.email,
+                    phone: bookingData.phone,
+                    property: bookingData.property,
+                    propertyId: bookingData.propertyId,
+                    checkin: bookingData.checkin,
+                    checkout: bookingData.checkout,
+                    guests: bookingData.guests,
+                    message: bookingData.message,
+                    total: bookingData.total
+                })
+            }).then(r => r.json()).then(out => {
+                if (out.ok && out.booking && out.booking.ref) {
+                    // Replace the local placeholder with the server-assigned reference
+                    const local = bookings.find(b => b === bookingData);
+                    if (local) { local.ref = out.booking.ref; local.id = out.booking.id; }
+                    saveStore('mj_bookings', bookings);
+                    confirmRef = out.booking.ref;
+                    updateConfirmation();
+                }
+            }).catch(() => { /* offline: local-only booking still works */ });
+            
             // Guest-facing confirmation modal with their reference + price estimate
-            openDetail({
+            let confirmRef = ref;
+            const updateConfirmation = () => openDetail({
                 title: 'Booking Request Received! 🎉',
-                subtitle: `Reference: ${ref} — keep this to follow up on your request`,
+                subtitle: `Reference: ${confirmRef} — keep this to follow up on your request`,
                 bodyHtml:
                     row('Property', property.title) +
                     row('Location', property.location) +
@@ -4260,6 +4349,7 @@
             if (!review) return;
             review.status = status;
             saveStore('mj_reviews', reviews);
+            API.patchReview(id, { status }).catch(() => {});
             showToast(`Review ${status === 'published' ? 'published' : 'hidden'} successfully!`);
             logActivity('fa-star', `Review from ${review.guest} ${status}`);
             renderReviews();
@@ -4312,6 +4402,7 @@
             if (!txn) return;
             txn.status = 'paid';
             saveStore('mj_payments', payments);
+            API.patchPayment(id, { status: 'paid' }).catch(() => {});
             showToast(`Payment ${id} marked as paid!`);
             logActivity('fa-credit-card', `Payment ${id} ($${txn.amount}) marked as paid`);
             renderPayments();
@@ -4322,6 +4413,7 @@
             if (!txn) return;
             txn.status = 'pending';
             saveStore('mj_payments', payments);
+            API.patchPayment(id, { status: 'pending' }).catch(() => {});
             showToast(`Retrying payment ${id}...`);
             logActivity('fa-redo', `Payment ${id} retry initiated`);
             renderPayments();
@@ -4644,6 +4736,7 @@
                         b.checkin = document.getElementById('ub-checkin').value;
                         b.checkout = document.getElementById('ub-checkout').value;
                         saveStore('mj_bookings', bookings);
+                        if (b.ref) API.patchBooking(b.ref, { name: b.name, phone: b.phone, checkin: b.checkin, checkout: b.checkin === b.checkout ? undefined : b.checkout }).catch(() => {});
                         setBookingStatus(b.id, document.getElementById('ub-status').value);
                     } },
                     { label: 'Cancel', onClick: closeDetail }
@@ -4656,6 +4749,7 @@
             if (!b) return;
             b.status = status;
             saveStore('mj_bookings', bookings);
+            if (b.ref) API.patchBooking(b.ref, { status }).catch(() => showToast('Saved locally — server sync failed', 'error'));
             showToast(`Booking ${b.ref || '#' + id} marked as ${status}`);
             logActivity('fa-calendar-check', `Booking ${b.ref || '#' + id} marked as ${status}`);
             closeDetail();
@@ -4681,6 +4775,7 @@
                         u.email = document.getElementById('eu-email').value;
                         u.phone = document.getElementById('eu-phone').value;
                         saveStore('mj_users', users);
+                        API.patchUser(u.id, { name: u.name, email: u.email, phone: u.phone }).catch(() => {});
                         updateAdminCard(u);
                         closeDetail();
                         updateAdminDashboard();
@@ -4711,6 +4806,7 @@
             if (wasNew) {
                 m.status = 'read';
                 saveStore('mj_messages', messages);
+                API.patchMessage(m.id, { status: 'read' }).catch(() => {});
                 updateNavBadges();
             }
             openDetail({
@@ -4719,11 +4815,39 @@
                 bodyHtml:
                     row('From', m.data.name) +
                     row('Email', `<a href="mailto:${m.data.email}" style="color: var(--gold);">${m.data.email}</a>`) +
+                    (m.data.phone ? row('Phone', `<a href="tel:${m.data.phone}" style="color: var(--gold);">${m.data.phone}</a>`) : '') +
                     row('Type', m.type === 'contact' ? 'Contact form' : 'Property interest') +
                     row('Status', statusChip(m.status)) +
-                    `<div style="margin-top: 14px;"><div style="font-size: 12.5px; color: var(--dark-gray); margin-bottom: 5px;">Message</div><div style="background: var(--light-gray); padding: 12px 14px; border-radius: 8px; font-size: 13.5px; line-height: 1.7;">${m.data.message || '—'}</div></div>`,
+                    `<div style="margin-top: 14px;"><div style="font-size: 12.5px; color: var(--dark-gray); margin-bottom: 5px;">Message</div><div style="background: var(--light-gray); padding: 12px 14px; border-radius: 8px; font-size: 13.5px; line-height: 1.7;">${m.data.message || '—'}</div></div>
+                     <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--gray);">
+                         <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;"><i class="fas fa-reply" style="color: var(--gold); margin-right: 6px;"></i>Reply to ${m.data.name} by email</div>
+                         <div class="form-group" style="margin-bottom: 10px;"><input type="text" id="reply-subject" class="form-control" value="Re: ${String(m.data.subject || 'Your inquiry').replace(/"/g, '&quot;')}"></div>
+                         <textarea id="reply-body" class="form-control" rows="5" placeholder="Write your reply…"></textarea>
+                         <div id="reply-status" style="font-size: 12.5px; margin-top: 8px;"></div>
+                     </div>`,
                 actions: [
-                    { label: 'Reply by email', icon: 'fa-reply', primary: true, onClick: () => { window.location.href = `mailto:${m.data.email}?subject=Re: ${encodeURIComponent(m.data.subject || '')}`; } },
+                    { label: 'Send email', icon: 'fa-paper-plane', primary: true, onClick: async () => {
+                        const subject = document.getElementById('reply-subject').value.trim();
+                        const text = document.getElementById('reply-body').value.trim();
+                        const statusEl = document.getElementById('reply-status');
+                        if (!text) { statusEl.innerHTML = '<span style="color: var(--red);">Write a reply first.</span>'; return; }
+                        statusEl.innerHTML = '<span style="color: var(--dark-gray);">Sending…</span>';
+                        try {
+                            await API.sendEmail({
+                                to: m.data.email,
+                                subject,
+                                text,
+                                html: `<div style="font-family: Poppins, Arial, sans-serif; line-height: 1.7; color: #1a1a1a;">${String(text).replace(/\n/g, '<br>')}<hr style="border:none; border-top:1px solid #ddd; margin:18px 0;"><small style="color:#717171;">MJ Properties · Kampala Gigo, Uganda · +256 740 286 242</small></div>`,
+                                messageId: m.id
+                            });
+                            statusEl.innerHTML = '<span style="color: var(--dark-green);"><i class="fas fa-check-circle"></i> Email sent to ' + m.data.email + '!</span>';
+                            showToast('Email sent successfully!');
+                            logActivity('fa-envelope', `Email reply sent to ${m.data.name} (${m.data.email})`);
+                            setTimeout(closeDetail, 1400);
+                        } catch (err) {
+                            statusEl.innerHTML = '<span style="color: var(--red);">' + err.message + '</span>';
+                        }
+                    } },
                     { label: 'Close', onClick: closeDetail }
                 ]
             });
