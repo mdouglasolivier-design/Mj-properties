@@ -3233,6 +3233,17 @@
         </div>
     </div>
     
+    <!-- Universal Record Detail Modal -->
+    <div class="modal" id="detail-modal">
+        <div class="modal-content" style="max-width: 560px;">
+            <button class="close-modal" id="close-detail-modal">&times;</button>
+            <h2 id="detail-title" style="color: var(--gold); margin-bottom: 6px;"></h2>
+            <p id="detail-subtitle" style="color: var(--dark-gray); font-size: 13px; margin-bottom: 18px;"></p>
+            <div id="detail-body" style="max-height: 55vh; overflow-y: auto;"></div>
+            <div id="detail-actions" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+        </div>
+    </div>
+    
     <!-- Add Property Modal -->
     <div class="modal" id="add-property-modal">
         <div class="modal-content">
@@ -3480,6 +3491,12 @@
         const addPropertyModal = document.getElementById('add-property-modal');
         const closeAddPropertyModal = document.getElementById('close-add-property-modal');
         const addPropertyForm = document.getElementById('add-property-form');
+        const detailModal = document.getElementById('detail-modal');
+        const closeDetailModal = document.getElementById('close-detail-modal');
+        const detailTitle = document.getElementById('detail-title');
+        const detailSubtitle = document.getElementById('detail-subtitle');
+        const detailBody = document.getElementById('detail-body');
+        const detailActions = document.getElementById('detail-actions');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
         const interestFormContainer = document.getElementById('interest-form-container');
@@ -3571,6 +3588,11 @@
         // Close Add Property Modal
         closeAddPropertyModal.addEventListener('click', () => {
             addPropertyModal.classList.remove('show');
+        });
+        
+        // Close Detail Modal
+        closeDetailModal.addEventListener('click', () => {
+            detailModal.classList.remove('show');
         });
         
         // Handle property image file upload
@@ -4085,8 +4107,8 @@
                     <td style="padding: 12px;">${booking.checkout}</td>
                     <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${booking.status === 'confirmed' ? 'var(--green)' : booking.status === 'pending' ? 'var(--gold)' : 'var(--gray)'}; color: white; font-size: 12px;">${booking.status}</span></td>
                     <td style="padding: 12px;">
-                        <button class="btn" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">View</button>
-                        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">Update</button>
+                        <button class="btn view-booking-btn" data-id="${booking.id}" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">View</button>
+                        <button class="btn btn-outline update-booking-btn" data-id="${booking.id}" style="padding: 6px 12px; font-size: 12px;">Update</button>
                     </td>
                 `;
                 bookingsList.appendChild(row);
@@ -4104,7 +4126,7 @@
                     <td style="padding: 12px;">${user.phone}</td>
                     <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${user.role === 'admin' ? 'var(--gold)' : 'var(--green)'}; color: white; font-size: 12px;">${user.role}</span></td>
                     <td style="padding: 12px;">
-                        <button class="btn" style="padding: 6px 12px; font-size: 12px;">Edit</button>
+                        <button class="btn edit-user-btn" data-id="${user.id}" style="padding: 6px 12px; font-size: 12px;">Edit</button>
                     </td>
                 `;
                 usersList.appendChild(row);
@@ -4122,7 +4144,7 @@
                     <td style="padding: 12px;">${new Date(message.date).toLocaleDateString()}</td>
                     <td style="padding: 12px;"><span style="padding: 4px 8px; border-radius: 4px; background-color: ${message.status === 'new' ? 'var(--red)' : 'var(--green)'}; color: white; font-size: 12px;">${message.status}</span></td>
                     <td style="padding: 12px;">
-                        <button class="btn" style="padding: 6px 12px; font-size: 12px;">View</button>
+                        <button class="btn view-message-btn" data-id="${message.id}" style="padding: 6px 12px; font-size: 12px;">View</button>
                     </td>
                 `;
                 messagesList.appendChild(row);
@@ -4467,6 +4489,181 @@
             const saved = localStorage.getItem('mj_activity_log');
             if (saved) activityLog = JSON.parse(saved);
         } catch (e) {}
+        
+        // ===== Universal detail modal engine =====
+        function openDetail({ title, subtitle, bodyHtml, actions = [] }) {
+            detailTitle.textContent = title;
+            detailSubtitle.textContent = subtitle || '';
+            detailBody.innerHTML = bodyHtml;
+            detailActions.innerHTML = '';
+            actions.forEach(({ label, icon, primary, onClick }) => {
+                const btn = document.createElement('button');
+                btn.className = primary ? 'btn' : 'btn btn-outline';
+                btn.style.cssText = 'padding: 10px 18px; font-size: 13px;';
+                btn.innerHTML = (icon ? `<i class="fas ${icon}"></i> ` : '') + label;
+                btn.addEventListener('click', () => { onClick && onClick(); });
+                detailActions.appendChild(btn);
+            });
+            detailModal.classList.add('show');
+        }
+        
+        function closeDetail() {
+            detailModal.classList.remove('show');
+        }
+        
+        function row(label, value) {
+            return `<div style="display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--gray); font-size: 14px;"><span style="color: var(--dark-gray);">${label}</span><strong style="text-align: right;">${value}</strong></div>`;
+        }
+        
+        function detailField(label, value, id) {
+            return `<div class="form-group" style="margin-bottom: 14px;"><label style="font-size: 12.5px; color: var(--dark-gray);">${label}</label><input type="text" id="${id}" class="form-control" value="${String(value == null ? '' : value).replace(/"/g, '&quot;')}"></div>`;
+        }
+        
+        const statusColors = { confirmed: 'var(--green)', pending: 'var(--gold)', cancelled: 'var(--gray)', new: 'var(--red)', read: 'var(--green)', paid: 'var(--green)', failed: 'var(--red)', refunded: 'var(--gray)', published: 'var(--green)', hidden: 'var(--gray)' };
+        
+        function statusChip(status) {
+            return `<span style="padding: 4px 12px; border-radius: 20px; background: ${statusColors[status] || 'var(--gray)'}; color: var(--white); font-size: 12px;">${status}</span>`;
+        }
+        
+        // ===== Bookings: view + update =====
+        window.viewBooking = function(id) {
+            const b = bookings.find(x => x.id == id);
+            if (!b) return;
+            openDetail({
+                title: `Booking #${b.id}`,
+                subtitle: `Created ${b.date ? new Date(b.date).toLocaleDateString() : 'recently'} · ${b.guests || 2} guest(s)`,
+                bodyHtml:
+                    row('Guest', b.name) +
+                    row('Phone', `<a href="tel:${b.phone}" style="color: var(--gold);">${b.phone || '—'}</a>`) +
+                    row('Email', b.email || '—') +
+                    row('Property', b.property) +
+                    row('Check-in', b.checkin) +
+                    row('Check-out', b.checkout) +
+                    row('Status', statusChip(b.status)) +
+                    (b.message ? `<div style="margin-top: 14px;"><div style="font-size: 12.5px; color: var(--dark-gray); margin-bottom: 5px;">Guest message</div><div style="background: var(--light-gray); padding: 12px 14px; border-radius: 8px; font-size: 13.5px;">${b.message}</div></div>` : ''),
+                actions: [
+                    { label: 'Confirm booking', icon: 'fa-check', primary: true, onClick: () => setBookingStatus(b.id, 'confirmed') },
+                    { label: 'Cancel booking', icon: 'fa-ban', onClick: () => setBookingStatus(b.id, 'cancelled') },
+                    { label: 'Call guest', icon: 'fa-phone', onClick: () => { window.location.href = 'tel:' + (b.phone || ''); } }
+                ]
+            });
+        };
+        
+        window.updateBooking = function(id) {
+            const b = bookings.find(x => x.id == id);
+            if (!b) return;
+            openDetail({
+                title: `Update Booking #${b.id}`,
+                subtitle: `${b.name} · ${b.property}`,
+                bodyHtml:
+                    detailField('Guest name', b.name, 'ub-name') +
+                    detailField('Phone', b.phone, 'ub-phone') +
+                    detailField('Check-in', b.checkin, 'ub-checkin') +
+                    detailField('Check-out', b.checkout, 'ub-checkout') +
+                    `<div class="form-group"><label style="font-size: 12.5px; color: var(--dark-gray);">Status</label><select id="ub-status" class="form-control"><option value="pending" ${b.status === 'pending' ? 'selected' : ''}>Pending</option><option value="confirmed" ${b.status === 'confirmed' ? 'selected' : ''}>Confirmed</option><option value="cancelled" ${b.status === 'cancelled' ? 'selected' : ''}>Cancelled</option></select></div>`,
+                actions: [
+                    { label: 'Save changes', icon: 'fa-save', primary: true, onClick: () => {
+                        b.name = document.getElementById('ub-name').value;
+                        b.phone = document.getElementById('ub-phone').value;
+                        b.checkin = document.getElementById('ub-checkin').value;
+                        b.checkout = document.getElementById('ub-checkout').value;
+                        setBookingStatus(b.id, document.getElementById('ub-status').value);
+                    } },
+                    { label: 'Cancel', onClick: closeDetail }
+                ]
+            });
+        };
+        
+        window.setBookingStatus = function(id, status) {
+            const b = bookings.find(x => x.id == id);
+            if (!b) return;
+            b.status = status;
+            showToast(`Booking #${id} marked as ${status}`);
+            closeDetail();
+            updateAdminDashboard();
+            updateNavBadges();
+        };
+        
+        // ===== Users: edit (including admin profile) =====
+        window.editUser = function(id) {
+            const u = users.find(x => x.id == id);
+            if (!u) return;
+            const isAdmin = u.role === 'admin';
+            openDetail({
+                title: isAdmin ? 'My Admin Profile' : `Edit User: ${u.name}`,
+                subtitle: isAdmin ? 'Changes apply immediately to your admin account' : `Role: ${u.role}`,
+                bodyHtml:
+                    detailField('Full name', u.name, 'eu-name') +
+                    detailField('Email', u.email, 'eu-email') +
+                    detailField('Phone', u.phone, 'eu-phone'),
+                actions: [
+                    { label: 'Save profile', icon: 'fa-save', primary: true, onClick: () => {
+                        u.name = document.getElementById('eu-name').value;
+                        u.email = document.getElementById('eu-email').value;
+                        u.phone = document.getElementById('eu-phone').value;
+                        updateAdminCard(u);
+                        closeDetail();
+                        updateAdminDashboard();
+                        showToast(isAdmin ? 'Admin profile updated successfully!' : 'User updated successfully!');
+                        logActivity('fa-user-edit', `${isAdmin ? 'Admin profile' : 'User ' + u.name} updated`);
+                    } },
+                    { label: 'Cancel', onClick: closeDetail }
+                ]
+            });
+        };
+        
+        function updateAdminCard(u) {
+            const info = document.querySelector('.sidebar-user-info strong');
+            const sub = document.querySelector('.sidebar-user-info small');
+            const avatar = document.querySelector('.sidebar-user-avatar');
+            if (info && u.role === 'admin') {
+                info.textContent = u.name;
+                sub.textContent = u.email;
+                avatar.textContent = u.name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+            }
+        }
+        
+        // ===== Messages: view + mark read + reply =====
+        window.viewMessage = function(id) {
+            const m = messages.find(x => x.id == id);
+            if (!m) return;
+            const wasNew = m.status === 'new';
+            if (wasNew) {
+                m.status = 'read';
+                updateNavBadges();
+            }
+            openDetail({
+                title: m.data.subject || 'Message',
+                subtitle: `From ${m.data.name} · ${new Date(m.date).toLocaleString()}`,
+                bodyHtml:
+                    row('From', m.data.name) +
+                    row('Email', `<a href="mailto:${m.data.email}" style="color: var(--gold);">${m.data.email}</a>`) +
+                    row('Type', m.type === 'contact' ? 'Contact form' : 'Property interest') +
+                    row('Status', statusChip(m.status)) +
+                    `<div style="margin-top: 14px;"><div style="font-size: 12.5px; color: var(--dark-gray); margin-bottom: 5px;">Message</div><div style="background: var(--light-gray); padding: 12px 14px; border-radius: 8px; font-size: 13.5px; line-height: 1.7;">${m.data.message || '—'}</div></div>`,
+                actions: [
+                    { label: 'Reply by email', icon: 'fa-reply', primary: true, onClick: () => { window.location.href = `mailto:${m.data.email}?subject=Re: ${encodeURIComponent(m.data.subject || '')}`; } },
+                    { label: 'Close', onClick: closeDetail }
+                ]
+            });
+            if (wasNew) showToast('Message marked as read');
+        };
+        
+        // Delegated handlers for dynamically rendered table buttons
+        document.addEventListener('click', (e) => {
+            const t = e.target.closest('button');
+            if (!t) return;
+            if (t.classList.contains('view-booking-btn')) viewBooking(t.dataset.id);
+            else if (t.classList.contains('update-booking-btn')) updateBooking(t.dataset.id);
+            else if (t.classList.contains('edit-user-btn')) editUser(t.dataset.id);
+            else if (t.classList.contains('view-message-btn')) viewMessage(t.dataset.id);
+        });
+        
+        // Make the sidebar admin profile card open the admin profile editor
+        document.querySelector('.sidebar-user').addEventListener('click', () => {
+            const admin = users.find(u => u.role === 'admin');
+            if (admin) editUser(admin.id);
+        });
         
         renderReviews();
         renderPayments();
