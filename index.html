@@ -894,10 +894,10 @@
             color: var(--gold);
         }
         
-        /* Analytics chart */
+        /* Analytics chart — fills the dashboard content area like other sections */
         .chart-wrap {
             position: relative;
-            height: 260px;
+            height: clamp(280px, 45vh, 460px);
         }
         
         .chart-legend {
@@ -1594,7 +1594,7 @@
             }
             
             .chart-wrap {
-                height: 200px;
+                height: 240px;
             }
         }
         
@@ -3028,7 +3028,7 @@
                                     <span><span class="dot" style="background: var(--green);"></span> Bookings</span>
                                 </div>
                             </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
                                 <div class="pay-stat">
                                     <div class="label">Avg. nightly rate</div>
                                     <div class="value" id="stat-avg-rate">$0</div>
