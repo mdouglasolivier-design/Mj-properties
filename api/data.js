@@ -7,7 +7,7 @@
 const { readData, writeData, cors, parseBody } = require('./_lib/data.js');
 const { requireAdmin } = require('./_lib/auth.js');
 
-const COLLECTIONS = ['bookings', 'messages', 'reviews', 'payments', 'users', 'settings'];
+const COLLECTIONS = ['bookings', 'messages', 'reviews', 'payments', 'users', 'settings', 'properties'];
 
 async function handler(req, res) {
   if (cors(req, res)) return;

@@ -3327,7 +3327,8 @@
             try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
         }
         
-        const properties = [
+        // Properties: server catalog first (fallback to seeded defaults), refreshed from the cloud
+        let PROPERTIES_SEED = [
             {
                 id: 1,
                 title: "Luxury Villa with Pool",
@@ -3381,6 +3382,27 @@
                 description: "Spacious family home with large garden and outdoor entertainment area."
             }
         ];
+        let properties = loadStore('mj_properties', PROPERTIES_SEED);
+        
+        // Pull the shared property catalog from the backend so every visitor sees
+        // what the admin publishes (falls back to local if the API is unreachable).
+        async function syncPropertiesFromServer() {
+            try {
+                const res = await fetch('/api/properties');
+                if (!res.ok) return;
+                const out = await res.json();
+                if (Array.isArray(out.properties) && out.properties.length) {
+                    properties = out.properties;
+                    saveStore('mj_properties', properties);
+                    renderFeaturedProperties();
+                    renderProperties();
+                    populateBookingProperties();
+                    if (typeof updateAdminDashboard === 'function' && adminPortal.classList.contains('active')) {
+                        updateAdminDashboard();
+                    }
+                }
+            } catch (e) { /* offline — keep local copy */ }
+        }
         
         const experiences = [
             {
@@ -3746,12 +3768,26 @@
                 showToast('Property added successfully!');
             }
             
-            localStorage.setItem('properties', JSON.stringify(properties));
+            saveStore('mj_properties', properties);
+            
+            // Persist to the backend so every visitor sees the change (best effort; local fallback)
+            const propertyPayload = { properties: properties.map(p => ({
+                id: p.id, title: p.title, location: p.location, price: p.price, type: p.type,
+                bedrooms: p.bedrooms, bathrooms: p.bathrooms, guests: p.guests,
+                rating: p.rating, image: p.image, description: p.description, dateAdded: p.dateAdded
+            })) };
+            fetch('/api/data', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json', ...(API.token ? { Authorization: 'Bearer ' + API.token } : {}) },
+                body: JSON.stringify(propertyPayload)
+            }).catch(() => {});
+            
             addPropertyModal.classList.remove('show');
             addPropertyForm.reset();
             
-            // Update property displays
+            // Update property displays everywhere (admin + public site)
             renderProperties();
+            renderFeaturedProperties();
             updateAdminDashboard();
             populateBookingProperties();
         });
@@ -3812,11 +3848,14 @@
             
             // Load page-specific content
             if (page === 'home') {
+                syncPropertiesFromServer();
                 renderFeaturedProperties();
                 renderExperiences();
             } else if (page === 'properties') {
+                syncPropertiesFromServer();
                 renderProperties();
             } else if (page === 'book') {
+                syncPropertiesFromServer();
                 populateBookingProperties();
             }
         }
@@ -4230,8 +4269,8 @@
                     document.getElementById('property-title').value = property.title;
                     document.getElementById('property-location').value = property.location;
                     document.getElementById('property-price').value = property.price;
-                    document.getElementById('property-beds').value = property.beds;
-                    document.getElementById('property-baths').value = property.baths;
+                    document.getElementById('property-bedrooms').value = property.bedrooms;
+                    document.getElementById('property-bathrooms').value = property.bathrooms;
                     document.getElementById('property-description').value = property.description;
                     document.getElementById('property-image').value = property.image;
                     document.getElementById('property-image-file').value = '';
@@ -4248,9 +4287,17 @@
                     const index = e.target.getAttribute('data-index');
                     if (confirm('Are you sure you want to delete this property?')) {
                         properties.splice(index, 1);
-                        localStorage.setItem('properties', JSON.stringify(properties));
+                        saveStore('mj_properties', properties);
+                        fetch('/api/data', {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json', ...(API.token ? { Authorization: 'Bearer ' + API.token } : {}) },
+                            body: JSON.stringify({ properties })
+                        }).catch(() => {});
                         showToast('Property deleted successfully!');
-                        displayAdminDashboard();
+                        updateAdminDashboard();
+                        renderProperties();
+                        renderFeaturedProperties();
+                        populateBookingProperties();
                     }
                 });
             });
@@ -5002,6 +5049,7 @@
             renderExperiences();
             renderProperties();
             populateBookingProperties();
+            syncPropertiesFromServer();
             
             // Show home page by default
             showPage('home');

@@ -49,7 +49,13 @@ function seedDefaults() {
       sitePhone: '+256740286242',
       siteLocation: 'Kampala Gigo, Uganda',
       commissionRate: 15
-    }
+    },
+    properties: [
+      { id: 1, title: 'Luxury Villa with Pool', location: 'Kololo, Kampala', price: 250, type: 'villa', bedrooms: 4, bathrooms: 3, guests: 8, rating: 4.9, image: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80', description: 'Stunning villa with private pool and panoramic city views.' },
+      { id: 2, title: 'Modern Apartment in City Center', location: 'Nakasero, Kampala', price: 120, type: 'apartment', bedrooms: 2, bathrooms: 2, guests: 4, rating: 4.7, image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80', description: 'Contemporary apartment with all amenities in the heart of the city.' },
+      { id: 3, title: 'Beachfront Cottage', location: 'Entebbe', price: 180, type: 'cottage', bedrooms: 3, bathrooms: 2, guests: 6, rating: 4.8, image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=1465&q=80', description: 'Charming cottage with direct beach access and sunset views.' },
+      { id: 4, title: 'Family House with Garden', location: 'Muyenga, Kampala', price: 200, type: 'house', bedrooms: 5, bathrooms: 4, guests: 10, rating: 4.6, image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80', description: 'Spacious family home with large garden and outdoor entertainment area.' }
+    ]
   };
 }
 
