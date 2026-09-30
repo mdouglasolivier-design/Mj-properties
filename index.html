@@ -83,6 +83,8 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 22px;
             font-weight: 700;
+            white-space: nowrap;
+            line-height: 1.2;
         }
         
         .logo-gold {
@@ -1438,11 +1440,11 @@
             }
             
             .logo-text {
-                font-size: 24px;
+                font-size: 20px;
             }
             
             .logo-icon {
-                font-size: 28px;
+                font-size: 24px;
             }
             
             .hero {
@@ -1610,11 +1612,11 @@
             }
             
             .logo-text {
-                font-size: 20px;
+                font-size: 19px;
             }
             
             .logo-icon {
-                font-size: 24px;
+                font-size: 22px;
                 margin-right: 8px;
             }
             
@@ -1866,7 +1868,7 @@
             
             .logo {
                 flex: 1;
-                min-width: 150px;
+                min-width: 0;
             }
             
             .logo-text {
@@ -1874,7 +1876,7 @@
             }
             
             .logo-icon {
-                font-size: 22px;
+                font-size: 20px;
                 margin-right: 6px;
             }
             
@@ -2363,9 +2365,13 @@
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <a href="#" class="logo" data-page="home">
-    <img src="https://i.imgur.com/YOUR-LOGO-ID.png" alt="MJ Properties Logo" class="logo-img">
-</a>
+            <a href="#" class="logo" data-page="home" aria-label="MJ Properties — Home">
+                <div class="logo-icon"><i class="fas fa-cogs"></i></div>
+                <div class="logo-text">
+                    <span class="logo-gold">MJ</span>
+                    <span class="logo-black">Properties</span>
+                </div>
+            </a>
             
             <div class="search-bar">
                 <input type="text" placeholder="Search for properties, locations...">
